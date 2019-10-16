@@ -24,7 +24,7 @@ class BlogController extends AbstractController
     {
     	return $this->render('blog/home.html.twig', [
             'title' => "Meilleur SnowBlog",
-            'age' => 17
+            'age' => 21
         ]);
     }
 }
