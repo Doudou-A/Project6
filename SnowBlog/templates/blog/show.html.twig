@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+<article>
+    <h2>{{ figure.name }}</h2>
+    <div class="metadata">Ecrit le {{ figure.dateCreated | date('d/m/Y')}} à {{ figure.dateCreated | date('H:i')}} dans la catégorie figure</div>
+    <div class="content">
+        <img src="{{ figure.image }}" alt="">
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis eveniet dolor, eos hic quos natus?
+        </p>
+        <p>Optio, quam dolorum, molestiae, ipsum quasi non eaque ex ipsa dolor corporis saepe vitae quibusdam.</p>
+        <hr>
+        {{ figure.content }}
+    </div>
+</article>
+
+{% endblock %}
