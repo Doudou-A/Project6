@@ -5,10 +5,15 @@
 {% block body %}
     <h1>Création d'une Figure</h1>
 
-    {{ form_start(formFigure)}}
+    {{ form_start(formFigure) }}
 
-    {{ form_widget(formFigure) }}
+    {{ form_row(formFigure.name, {'attr' : {'placeholder' : "Nom de la Figure"}}) }}
+    {{ form_row(formFigure.content, {'attr' : {'placeholder' : "Contenu de la Figure"}}) }}
+    {{ form_row(formFigure.summary, {'attr' : {'placeholder' : "Résumé de la Figure"}}) }}
+    {{ form_row(formFigure.image, {'attr' : {'placeholder' : "Url de l'image" }}) }}
 
-    {{ form_end(formFigure)}}
+    <button type="submit" class="btn btn-success">Ajouter l'Article</button>
+
+    {{ form_end(formFigure) }}
 
 {% endblock %}

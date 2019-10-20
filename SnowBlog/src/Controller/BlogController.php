@@ -7,6 +7,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Figure;
 use App\Repository\FigureRepository;
@@ -45,22 +46,22 @@ class BlogController extends AbstractController
         $figure = new Figure();
 
         $form = $this->createFormBuilder($figure)
-                     ->add('name', TextType::class,  [
-                         'attr' => [
-                             'placeholder' => "Nom de la Figure"
-                         ]
-                     ])
-                     ->add('content', TextareaType::class, [
-                        'attr' => [
-                            'placeholder' => "Nom de la Figure"
-                        ]
-                     ])
-                     ->add('image', TextType::class, [
-                        'attr' => [
-                            'placeholder' => "Nom de la Figure"
-                        ]
-                     ])
+                     ->add('name')
+                     ->add('content')
+                     ->add('summary')
+                     ->add('image')
                      ->getForm();
+        
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $figure->setDateCreated(new \DateTime());
+
+            $manager->persist($figure);
+            $manager->flush();
+
+            return $this->redirectToRoute('blog_show', ['id' =>$figure->getid()]);
+        } 
 
         return $this->render('blog/create.html.twig', [
             'formFigure' =>$form->createView()
