@@ -2,13 +2,19 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(
+ *  fields= {"email"},
+ * message= "L'email que vous avez indiqué est déja utilisé !"
+ * )
  */
 class User implements UserInterface  
 {
@@ -21,6 +27,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email()
      */
     private $email;
 
@@ -32,12 +39,18 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $pseudo;
+    private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="8", minMessage="Votre mot de passe doit contenir 8 caractères")
      */
     private $password;
+
+    /**
+     * * @Assert\EqualTo(propertyPath="password", message="Vos mots de passe sont différents")
+     */
+    public $confirm_password;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\FigureForum", mappedBy="user")
@@ -84,14 +97,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getPseudo(): ?string
+    public function getUsername(): ?string
     {
-        return $this->pseudo;
+        return $this->username;
     }
 
-    public function setPseudo(string $pseudo): self
+    public function setUsername(string $username): self
     {
-        $this->pseudo = $pseudo;
+        $this->username = $username;
 
         return $this;
     }
@@ -108,24 +121,23 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getUsername()
-    {
-        return $this->email;
-    }
-
     public function getSalt()
     {
         return null;
     }
 
-    public function getRoles()
+    public function getRoles():array
     {
-        return array('ROLE_USER');
+        $roles[] = 'ROLE_USER';
+
+        if (empty($roles)) {
+            $roles[] = 'ROLE_USER';
+        }
+
+        return array_unique($roles);
     }
 
-    public function eraseCredentials()
-    {
-    }
+    public function eraseCredentials() {}
 
     /**
      * @return Collection|FigureForum[]
