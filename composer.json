@@ -1,6 +1,12 @@
 {
     "require": {
-        "symfony/orm-pack": "^1.0"
+        "symfony/orm-pack": "^1.0",
+        "symfony/security": "^4.3",
+        "symfony/validator": "^4.3",
+        "symfony/annotations-pack": "^1.0",
+        "symfony/profiler-pack": "^1.0",
+        "symfony/security-csrf": "^4.3",
+        "symfony/flex": "^1.4"
     },
     "require-dev": {
         "doctrine/data-fixtures": "^1.3",

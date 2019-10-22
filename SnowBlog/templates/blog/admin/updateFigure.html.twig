@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme formFigure 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+    <h1>Modifier une Figure</h1>
+
+    {{ form_start(formFigure) }}
+
+    {{ form_row(formFigure.name, {'attr' : {'value' : figure.name }}) }}
+    {{ form_row(formFigure.content, {'attr' : {'value' : figure.content}}) }}
+    {{ form_row(formFigure.summary, {'attr' : {'value' : figure.summary }}) }}
+    {{ form_row(formFigure.image, {'attr' : {'value' : figure.image }}) }}
+
+    <button type="submit" class="btn btn-success">Modifier la Article</button>
+
+    {{ form_end(formFigure) }}
+
+{% endblock %}
