@@ -2,14 +2,21 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(
+ *  fields= {"email"},
+ * message= "L'email que vous avez indiqué est déja utilisé !"
+ * )
  */
-class User
+class User implements UserInterface  
 {
     /**
      * @ORM\Id()
@@ -20,6 +27,7 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email()
      */
     private $email;
 
@@ -31,17 +39,18 @@ class User
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $pseudo;
+    private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="8", minMessage="Votre mot de passe doit contenir 8 caractères")
      */
     private $password;
 
     /**
-     * @ORM\Column(type="boolean")
+     * * @Assert\EqualTo(propertyPath="password", message="Vos mots de passe sont différents")
      */
-    private $adminAccess;
+    public $confirm_password;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\FigureForum", mappedBy="user")
@@ -88,14 +97,14 @@ class User
         return $this;
     }
 
-    public function getPseudo(): ?string
+    public function getUsername(): ?string
     {
-        return $this->pseudo;
+        return $this->username;
     }
 
-    public function setPseudo(string $pseudo): self
+    public function setUsername(string $username): self
     {
-        $this->pseudo = $pseudo;
+        $this->username = $username;
 
         return $this;
     }
@@ -112,17 +121,23 @@ class User
         return $this;
     }
 
-    public function getAdminAccess(): ?bool
+    public function getSalt()
     {
-        return $this->adminAccess;
+        return null;
     }
 
-    public function setAdminAccess(bool $adminAccess): self
+    public function getRoles():array
     {
-        $this->adminAccess = $adminAccess;
+        $roles[] = 'ROLE_USER';
 
-        return $this;
+        if (empty($roles)) {
+            $roles[] = 'ROLE_USER';
+        }
+
+        return array_unique($roles);
     }
+
+    public function eraseCredentials() {}
 
     /**
      * @return Collection|FigureForum[]

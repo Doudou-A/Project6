@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FigureRepository")
@@ -20,16 +21,19 @@ class Figure
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=5, max=255, minMessage="Le champ doit contenir minimum 5 caractères")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=10, max=255)
      */
     private $summary;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min=10)
      */
     private $content;
 

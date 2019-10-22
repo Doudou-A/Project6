@@ -3,7 +3,13 @@
 {% form_theme formFigure 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
-    <h1>Création d'une Figure</h1>
+    <h1>
+        {% if editMode %}
+            Modification d'une Figure
+        {% else %}
+            Création d'une Figure
+        {% endif %}
+    </h1>
 
     {{ form_start(formFigure) }}
 
@@ -12,7 +18,13 @@
     {{ form_row(formFigure.summary, {'attr' : {'placeholder' : "Résumé de la Figure"}}) }}
     {{ form_row(formFigure.image, {'attr' : {'placeholder' : "Url de l'image" }}) }}
 
-    <button type="submit" class="btn btn-success">Ajouter l'Article</button>
+    <button type="submit" class="btn btn-success">
+        {% if editMode %}
+            Enregistrer les modifications
+        {% else %}
+            Ajouter l'Article
+        {% endif %}
+    </button>
 
     {{ form_end(formFigure) }}
 

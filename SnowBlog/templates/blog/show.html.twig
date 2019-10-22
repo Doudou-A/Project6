@@ -4,7 +4,11 @@
 
 <article>
     <h2>{{ figure.name }}</h2>
-    <div class="metadata">Ecrit le {{ figure.dateCreated | date('d/m/Y')}} à {{ figure.dateCreated | date('H:i')}} dans la catégorie figure</div>
+    {% if figure.dateLastUpdate is empty %}   
+     <div class="metadata">Ecrit le {{ figure.dateCreated | date('d/m/Y')}} à {{ figure.dateCreated | date('H:i')}} </div>
+    {% else %}  
+    <div class="metadata">Dernière modification le {{ figure.dateLastUpdate | date('d/m/Y')}} à {{ figure.dateLastUpdate | date('H:i')}} </div>
+    {% endif %}
     <div class="content">
         <img src="{{ figure.image }}" alt="">
         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis eveniet dolor, eos hic quos natus?

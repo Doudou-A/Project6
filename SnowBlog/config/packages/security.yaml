@@ -1,7 +1,19 @@
 security:
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+
+    role_hierarchy:
+        ROLE_USER:       ROLE_USER
+        ROLE_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
     providers:
-        in_memory: { memory: null }
+        our_db_provider:
+            entity:
+                class: App\Entity\User
+                property: email
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -9,6 +21,14 @@ security:
         main:
             anonymous: true
 
+            provider: our_db_provider
+
+            form_login:
+                login_path: security_login 
+                check_path: security_login
+            logout:
+                path:   security_logout   
+                target: blog
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 

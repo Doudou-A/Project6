@@ -5,12 +5,10 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Figure;
 use App\Repository\FigureRepository;
+use App\Form\FigureType;
 
 class BlogController extends AbstractController
 {
@@ -28,7 +26,7 @@ class BlogController extends AbstractController
     }
 
     /**
-    * @Route("/", name="home")
+    * @Route("/", name="homepage")
     */
     public function home()
     {
@@ -40,22 +38,25 @@ class BlogController extends AbstractController
 
     /**
      *  @Route("/blog/new", name="blog_create")
+     *  @Route("/blog/{id}/edit", name="blog_edit")
      */
-    public function create(Request $request, ObjectManager $manager)
+    public function formFigure(Figure $figure = null, Request $request, ObjectManager $manager)
     {
-        $figure = new Figure();
+        if(!$figure){
+            $figure = new Figure();
+        }
 
-        $form = $this->createFormBuilder($figure)
-                     ->add('name')
-                     ->add('content')
-                     ->add('summary')
-                     ->add('image')
-                     ->getForm();
-        
+        $form = $this->createForm(FigureType::class, $figure);
+
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $figure->setDateCreated(new \DateTime());
+            if(!$figure->getId()){
+                $figure->setDateCreated(new \DateTime());
+            }
+            else{
+                $figure->setDateLastUpdate(new \Datetime());
+            }
 
             $manager->persist($figure);
             $manager->flush();
@@ -64,7 +65,8 @@ class BlogController extends AbstractController
         } 
 
         return $this->render('blog/create.html.twig', [
-            'formFigure' =>$form->createView()
+            'formFigure' =>$form->createView(),
+            'editMode' => $figure->getId() !==null
         ]);
     }
 
