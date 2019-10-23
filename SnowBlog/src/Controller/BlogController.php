@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Figure;
 use App\Form\FigureType;
+use App\Entity\FigureForum;
+use App\Form\FigureForumType;
 use App\Repository\UserRepository;
 use App\Repository\FigureRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -86,10 +88,27 @@ class BlogController extends AbstractController
     /**
      *  @Route("/blog/{id}", name="blog_show")
      */
-    public function show(Figure $figure)
+    public function show(Figure $figure, Request $request, ObjectManager $manager)
     {
+        $figureForum = new FigureForum();
+
+        $form = $this->createForm(FigureForumType::class, $figureForum);      
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $figureForum->setDateCreated(new \DateTime())
+                        ->setFigure($figure);
+
+            $manager->persist($figureForum);
+            $manager->flush();
+
+            return $this->redirectToRoute('blog_show', ['id' => $figure->getId()]);
+        }
+
         return $this->render('blog/show.html.twig', [
-            'figure' => $figure
+            'figure' => $figure,
+            'formForum' => $form->createView()
         ]);
     }
 }
