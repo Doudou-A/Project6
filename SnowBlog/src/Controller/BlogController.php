@@ -2,16 +2,29 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Figure;
+use App\Form\FigureType;
+use App\Repository\UserRepository;
+use App\Repository\FigureRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
-use App\Entity\Figure;
-use App\Repository\FigureRepository;
-use App\Form\FigureType;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BlogController extends AbstractController
 {
+    /** 
+    * @Route("/admin/dashboard", name="dashboard") 
+    */
+    public function dashboard(UserRepository $repo)
+    {
+        $users = $repo->findAll();
+
+        return $this->render('admin/dashboard.html.twig', [
+            'users' => $users
+        ]);
+    }
+
     /**
      * @Route("/blog", name="blog")
      */

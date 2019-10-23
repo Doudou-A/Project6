@@ -128,7 +128,7 @@ class User implements UserInterface
 
     public function getRoles():array
     {
-        $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_ADMIN';
 
         if (empty($roles)) {
             $roles[] = 'ROLE_USER';
