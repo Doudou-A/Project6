@@ -13,8 +13,6 @@ class FigureForumType extends AbstractType
     {
         $builder
             ->add('content')
-            //->add('user')
-            //->add('figure')
         ;
     }
 

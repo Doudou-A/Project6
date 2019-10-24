@@ -25,26 +25,33 @@
             <hr>
             {{ figure.content }}
         </div>
+        <div>
+            <p class="text-success">
+                Auteur : {{ user.username }}
+            </p>
+        </div>
     </article>
 
     <section id="commentaires">
-        {#<h1>{{ figure.figureForums | length }} Réponses : </h1>
+        <h1>{{ figure.figureForums | length }} Réponses : </h1>
         {% for figureForum in figure.figureForums %}
             <div class="comment">
                 <div class="row">
                     <div class="col-3">
-                        {#{{figureForum.user}} 
-                        (<small>{{figureForum.dateCreated | date('d/m/Y')}})
+                        {{ figureForum.user.username }} 
+                        (<small>{{ figureForum.dateCreated | date('d/m/Y')}})
                             <div class="col">
                                 {{ figureForum.content | raw }}</div>
                         </div>
                     </div>
                 </div>
-            {% endfor %}#}
+            {% endfor %}
 
             {% if app.user %}
             {{ form_start(formForum) }}
-            {#{{ form_row(figureForum.user) }}#}
+            <div class="border border-primrary">
+                {{ app.user.username }}
+            </div>
             {{ form_row(formForum.content) }}
 
             <button type="submit" class="btn btn-success"> Répondre ! </button>

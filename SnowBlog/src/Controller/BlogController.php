@@ -61,6 +61,8 @@ class BlogController extends AbstractController
             $figure = new Figure();
         }
 
+        $user = $this->getUser();
+
         $form = $this->createForm(FigureType::class, $figure);
 
         $form->handleRequest($request);
@@ -72,7 +74,9 @@ class BlogController extends AbstractController
             else{
                 $figure->setDateLastUpdate(new \Datetime());
             }
+            $figure->setUser($user);
 
+            $manager->persist($user);
             $manager->persist($figure);
             $manager->flush();
 
@@ -91,17 +95,19 @@ class BlogController extends AbstractController
     public function show(Figure $figure, Request $request, ObjectManager $manager)
     {
         $figureForum = new FigureForum();
-        $user = $this->getuser();
+        $user = $this->getUser();
 
         $form = $this->createForm(FigureForumType::class, $figureForum);      
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $figureForum->setDateCreated(new \DateTime())
-                        ->setUser($user->getId())
-                        ->setFigure($figure->getId());
+            $figureForum->setDateCreated(new \DateTime());
+            $figureForum->setUser($user);
+            $figureForum->setFigure($figure);
 
+            $manager->persist($user);
+            $manager->persist($figure);
             $manager->persist($figureForum);
             $manager->flush();
 
@@ -110,6 +116,7 @@ class BlogController extends AbstractController
 
         return $this->render('blog/show.html.twig', [
             'figure' => $figure,
+            'user' => $user,
             'formForum' => $form->createView()
         ]);
     }
