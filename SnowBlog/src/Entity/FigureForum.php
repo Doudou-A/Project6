@@ -28,11 +28,13 @@ class FigureForum
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="figureForums")
+     * @JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Figure", inversedBy="figureForums")
+     * @JoinColumn(name="figure_id", referencedColumnName="id")
      */
     private $figure;
 

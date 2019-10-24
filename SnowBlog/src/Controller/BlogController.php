@@ -91,6 +91,7 @@ class BlogController extends AbstractController
     public function show(Figure $figure, Request $request, ObjectManager $manager)
     {
         $figureForum = new FigureForum();
+        $user = $this->getuser();
 
         $form = $this->createForm(FigureForumType::class, $figureForum);      
 
@@ -98,7 +99,8 @@ class BlogController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $figureForum->setDateCreated(new \DateTime())
-                        ->setFigure($figure);
+                        ->setUser($user->getId())
+                        ->setFigure($figure->getId());
 
             $manager->persist($figureForum);
             $manager->flush();
