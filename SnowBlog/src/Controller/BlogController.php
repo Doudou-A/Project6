@@ -85,6 +85,20 @@ class BlogController extends AbstractController
     }
 
     /**
+     * @Route("/admin/profil/forum", name="profilForum")
+     */
+    public function profilForum(ForumRepository $repo)
+    {
+        $id = $this->getUser()->getId();
+        $forums = $repo->findByUser($id);
+
+        return $this->render('admin/profil/forum.html.twig', [
+            'forums' => $forums
+        ]);
+
+    }
+
+    /**
      * @Route("/admin/profil/figure", name="profilFigure")
      */
     public function profilFigure(FigureRepository $repo)

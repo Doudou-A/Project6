@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+<div class="d-flex">
+    <div class="col-2 p-3 border border-primary text-center">Id</div>
+    <div class="col-4 p-3 border border-primary text-center">Adresse email</div>
+    <div class="col-4 p-3 border border-primary text-center">Pseudo</div>
+    <div class="col-2 p-3 border border-primary text-center">Action</div>
+</div>
+<div class="d-flex">
+        <div>{{ forum.figure.name }}</div>
+        <div>{{ forum.id }}</div>
+        <div>{{ forum.content }}</div>
+        <div>{{ forum.dateCreated }}</div>
+        <a href="{{ path('show', {'id': forum.figure.id}) }}" class="col-1 btn btn-succes">Voir la Figure</a>
+    </div>      
+
+
+
+{% endblock %}

@@ -10,7 +10,10 @@
         Nombre de Figure postée : {{ figure | length}}
         <a href="{{ path('profilFigure') }}">Voir toutes mes Figures postées</a>
     </div>
-    <div>Nombre de réponse postée : {{ forum | length}}</div>
+    <div>
+        Nombre de réponse postée : {{ forum | length}}
+        <a href="{{ path('forumFigure') }}">Voir toutes mes réponses</a>
+    </div>
 </div>
 
 {% endblock %}
