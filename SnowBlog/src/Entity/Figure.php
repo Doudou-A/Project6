@@ -59,6 +59,7 @@ class Figure
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\FigureForum", mappedBy="figure")
+     * @ORM\JoinColumn(name="figure_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $figureForums;
 

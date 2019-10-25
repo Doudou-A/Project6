@@ -54,11 +54,13 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\FigureForum", mappedBy="user")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $figureForums;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Figure", mappedBy="user")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $figures;
 
