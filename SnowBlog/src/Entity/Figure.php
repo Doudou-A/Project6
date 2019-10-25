@@ -54,17 +54,18 @@ class Figure
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="figures")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\FigureForum", mappedBy="figure")
+     * @ORM\OneToMany(targetEntity="App\Entity\Forum", mappedBy="figure", cascade={"remove"})
      */
-    private $figureForums;
+    private $forums;
 
     public function __construct()
     {
-        $this->figureForums = new ArrayCollection();
+        $this->forums = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -157,30 +158,30 @@ class Figure
     }
 
     /**
-     * @return Collection|FigureForum[]
+     * @return Collection|Forum[]
      */
-    public function getFigureForums(): Collection
+    public function getForums(): Collection
     {
-        return $this->figureForums;
+        return $this->forums;
     }
 
-    public function addFigureForum(FigureForum $figureForum): self
+    public function addForum(Forum $forum): self
     {
-        if (!$this->figureForums->contains($figureForum)) {
-            $this->figureForums[] = $figureForum;
-            $figureForum->setFigure($this);
+        if (!$this->forums->contains($forum)) {
+            $this->forums[] = $forum;
+            $forum->setFigure($this);
         }
 
         return $this;
     }
 
-    public function removeFigureForum(FigureForum $figureForum): self
+    public function removeForum(Forum $forum): self
     {
-        if ($this->figureForums->contains($figureForum)) {
-            $this->figureForums->removeElement($figureForum);
+        if ($this->forums->contains($forum)) {
+            $this->forums->removeElement($forum);
             // set the owning side to null (unless already changed)
-            if ($figureForum->getFigure() === $this) {
-                $figureForum->setFigure(null);
+            if ($forum->getFigure() === $this) {
+                $forum->setFigure(null);
             }
         }
 
