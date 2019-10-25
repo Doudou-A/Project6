@@ -11,6 +11,7 @@ use App\Repository\FigureRepository;
 use App\Repository\FigureForumRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
+use PhpParser\Node\Stmt\Else_;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -23,13 +24,34 @@ class BlogController extends AbstractController
     {
         $figures = $repoFigure->findAll();
         $figureForums = $repoForum->findBy(array(), array('figure' => 'ASC'));
-        $users = $repoUser->findAll();
+        $users = $repoUser->findBy(array(), array('email' => 'ASC'));
 
         return $this->render('admin/dashboard.html.twig', [
             'figures' => $figures,
             'figureForums' => $figureForums,
             'users' => $users
         ]);
+    }
+
+    /**
+     * @Route("/admin/supprime/{entity}/{id}", name="delete")
+     */
+    public function delete($entity, $id, FigureForumRepository $repoForum, FigureRepository $repoFigure, UserRepository $repoUser, ObjectManager $manager)
+    {
+        if ( $entity == 'user') {
+            $user = $repoUser->find($id);
+            $manager->remove($user);
+        } elseif ( $entity == 'figure' ){
+            $figure = $repoFigure->find($id);
+            $manager->remove($figure);
+        } elseif ( $entity == 'forum'){
+            $forum = $repoForum->find($id);
+            $manager->remove($forum);
+        }
+        $manager->flush();
+
+        return $this->redirectToRoute('dashboard');
+
     }
 
     /**
