@@ -8,10 +8,27 @@
     {% for user in users %}
         <article>
             <h2>{{ user.email }}</h2>
-            <div class="metadata">Créer le {{ user.dateCreated | date('d/m/Y') }} à {{ user.dateCreated | date('H:i') }} </div>
-            <div class="metadata">Pseudo : {{ user.username }}</div>
+            <div>Créer le {{ user.dateCreated | date('d/m/Y') }} à {{ user.dateCreated | date('H:i') }} </div>
+            <div>Pseudo : {{ user.username }}</div>
         </article>        
     {% endfor %}
+
+    {% for figure in figures %}
+        <article class="d-flex">
+            <div>{{ figure.id }}</div>
+            <div>{{ figure.name }}</div>
+            <div>{{ figure.summary }}</div>
+        </article>        
+    {% endfor %}
+
+      {% for figureForum in figureForums %}
+        <article class="d-flex mt-5">
+            <div>{{ figureForum.figure.name }}</div>
+            <div>{{ figureForum.id }}</div>
+            <div>{{ figureForum.content }}</div>
+        </article>        
+    {% endfor %}
+
    
 </section>
 {% endblock %}

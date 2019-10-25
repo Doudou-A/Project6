@@ -8,6 +8,7 @@ use App\Entity\FigureForum;
 use App\Form\FigureForumType;
 use App\Repository\UserRepository;
 use App\Repository\FigureRepository;
+use App\Repository\FigureForumRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,11 +19,15 @@ class BlogController extends AbstractController
     /** 
     * @Route("/admin/dashboard", name="dashboard") 
     */
-    public function dashboard(UserRepository $repo)
+    public function dashboard(UserRepository $repoUser, FigureRepository $repoFigure, FigureForumRepository $repoForum)
     {
-        $users = $repo->findAll();
+        $figures = $repoFigure->findAll();
+        $figureForums = $repoForum->findBy(array(), array('figure' => 'ASC'));
+        $users = $repoUser->findAll();
 
         return $this->render('admin/dashboard.html.twig', [
+            'figures' => $figures,
+            'figureForums' => $figureForums,
             'users' => $users
         ]);
     }

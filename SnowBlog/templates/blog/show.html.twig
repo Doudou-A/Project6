@@ -27,13 +27,19 @@
         </div>
         <div>
             <p class="text-success">
-                Auteur : {{ user.username }}
+                Auteur : {{ figure.user.username }}
             </p>
         </div>
     </article>
 
     <section id="commentaires">
-        <h1>{{ figure.figureForums | length }} Réponses : </h1>
+        {% if figure.figureForums|length == 0 %}
+        <h2> Soyez le premier à discuter de cette figure : </h2>
+        {% elseif figure.figureForums|length == 1 %}
+        <h2>{{ figure.figureForums | length }} Réponse : </h2>
+        {% else %}    
+        <h2>{{ figure.figureForums | length }} Réponses : </h2>
+        {% endif %}
         {% for figureForum in figure.figureForums %}
             <div class="comment">
                 <div class="row">
