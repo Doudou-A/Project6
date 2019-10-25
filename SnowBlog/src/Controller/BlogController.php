@@ -4,8 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Figure;
 use App\Form\FigureType;
+use App\Entity\FigureForum;
+use App\Form\FigureForumType;
 use App\Repository\UserRepository;
 use App\Repository\FigureRepository;
+use App\Repository\FigureForumRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,11 +19,15 @@ class BlogController extends AbstractController
     /** 
     * @Route("/admin/dashboard", name="dashboard") 
     */
-    public function dashboard(UserRepository $repo)
+    public function dashboard(UserRepository $repoUser, FigureRepository $repoFigure, FigureForumRepository $repoForum)
     {
-        $users = $repo->findAll();
+        $figures = $repoFigure->findAll();
+        $figureForums = $repoForum->findBy(array(), array('figure' => 'ASC'));
+        $users = $repoUser->findAll();
 
         return $this->render('admin/dashboard.html.twig', [
+            'figures' => $figures,
+            'figureForums' => $figureForums,
             'users' => $users
         ]);
     }
@@ -59,6 +66,8 @@ class BlogController extends AbstractController
             $figure = new Figure();
         }
 
+        $user = $this->getUser();
+
         $form = $this->createForm(FigureType::class, $figure);
 
         $form->handleRequest($request);
@@ -70,7 +79,9 @@ class BlogController extends AbstractController
             else{
                 $figure->setDateLastUpdate(new \Datetime());
             }
+            $figure->setUser($user);
 
+            $manager->persist($user);
             $manager->persist($figure);
             $manager->flush();
 
@@ -86,10 +97,32 @@ class BlogController extends AbstractController
     /**
      *  @Route("/blog/{id}", name="blog_show")
      */
-    public function show(Figure $figure)
+    public function show(Figure $figure, Request $request, ObjectManager $manager)
     {
+        $figureForum = new FigureForum();
+        $user = $this->getUser();
+
+        $form = $this->createForm(FigureForumType::class, $figureForum);      
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $figureForum->setDateCreated(new \DateTime());
+            $figureForum->setUser($user);
+            $figureForum->setFigure($figure);
+
+            $manager->persist($user);
+            $manager->persist($figure);
+            $manager->persist($figureForum);
+            $manager->flush();
+
+            return $this->redirectToRoute('blog_show', ['id' => $figure->getId()]);
+        }
+
         return $this->render('blog/show.html.twig', [
-            'figure' => $figure
+            'figure' => $figure,
+            'user' => $user,
+            'formForum' => $form->createView()
         ]);
     }
 }

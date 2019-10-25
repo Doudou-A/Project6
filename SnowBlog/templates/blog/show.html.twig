@@ -2,21 +2,74 @@
 
 {% block body %}
 
-<article>
-    <h2>{{ figure.name }}</h2>
-    {% if figure.dateLastUpdate is empty %}   
-     <div class="metadata">Ecrit le {{ figure.dateCreated | date('d/m/Y')}} à {{ figure.dateCreated | date('H:i')}} </div>
-    {% else %}  
-    <div class="metadata">Dernière modification le {{ figure.dateLastUpdate | date('d/m/Y')}} à {{ figure.dateLastUpdate | date('H:i')}} </div>
-    {% endif %}
-    <div class="content">
-        <img src="{{ figure.image }}" alt="">
-        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis eveniet dolor, eos hic quos natus?
-        </p>
-        <p>Optio, quam dolorum, molestiae, ipsum quasi non eaque ex ipsa dolor corporis saepe vitae quibusdam.</p>
-        <hr>
-        {{ figure.content }}
-    </div>
-</article>
+    <article>
+        <h2>{{ figure.name }}</h2>
+        {% if figure.dateLastUpdate is empty %}
+            <div class="metadata">Ecrit le
+                {{ figure.dateCreated | date('d/m/Y')}}
+                à
+                {{ figure.dateCreated | date('H:i')}}
+            </div>
+        {% else %}
+            <div class="metadata">Dernière modification le
+                {{ figure.dateLastUpdate | date('d/m/Y')}}
+                à
+                {{ figure.dateLastUpdate | date('H:i')}}
+            </div>
+        {% endif %}
+        <div class="content">
+            <img src="{{ figure.image }}" alt="">
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis eveniet dolor, eos hic quos natus?
+            </p>
+            <p>Optio, quam dolorum, molestiae, ipsum quasi non eaque ex ipsa dolor corporis saepe vitae quibusdam.</p>
+            <hr>
+            {{ figure.content }}
+        </div>
+        <div>
+            <p class="text-success">
+                Auteur : {{ figure.user.username }}
+            </p>
+        </div>
+    </article>
 
-{% endblock %}
+    <section id="commentaires">
+        {% if figure.figureForums|length == 0 %}
+        <h2> Soyez le premier à discuter de cette figure : </h2>
+        {% elseif figure.figureForums|length == 1 %}
+        <h2>{{ figure.figureForums | length }} Réponse : </h2>
+        {% else %}    
+        <h2>{{ figure.figureForums | length }} Réponses : </h2>
+        {% endif %}
+        {% for figureForum in figure.figureForums %}
+            <div class="comment">
+                <div class="row">
+                    <div class="col-3">
+                        {{ figureForum.user.username }} 
+                        (<small>{{ figureForum.dateCreated | date('d/m/Y')}})
+                            <div class="col">
+                                {{ figureForum.content | raw }}</div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+            {% if app.user %}
+            {{ form_start(formForum) }}
+            <div class="border border-primrary">
+                {{ app.user.username }}
+            </div>
+            {{ form_row(formForum.content) }}
+
+            <button type="submit" class="btn btn-success"> Répondre ! </button>
+            {{ form_end(formForum) }}
+
+            {% else %}
+                <h2> Vous ne pouvez pas Répondre si vous n'êtes pas connecté !</h2>
+                <a href="{{path('security_login')}}" class="btn btn-primary">
+                    Connexion
+                 </a>
+            {% endif %}
+
+        </section>
+
+    {% endblock %}
