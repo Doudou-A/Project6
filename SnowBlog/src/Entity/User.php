@@ -51,22 +51,20 @@ class User implements UserInterface
      * * @Assert\EqualTo(propertyPath="password", message="Vos mots de passe sont différents")
      */
     public $confirm_password;
-
+    
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\FigureForum", mappedBy="user")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\OneToMany(targetEntity="App\Entity\Forum", mappedBy="user")
      */
-    private $figureForums;
+    private $forums;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Figure", mappedBy="user")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $figures;
 
     public function __construct()
     {
-        $this->figureForums = new ArrayCollection();
+        $this->forums = new ArrayCollection();
         $this->figures = new ArrayCollection();
     }
 
@@ -142,30 +140,30 @@ class User implements UserInterface
     public function eraseCredentials() {}
 
     /**
-     * @return Collection|FigureForum[]
+     * @return Collection|Forum[]
      */
-    public function getFigureForums(): Collection
+    public function getForums(): Collection
     {
-        return $this->figureForums;
+        return $this->forums;
     }
 
-    public function addFigureForum(FigureForum $figureForum): self
+    public function addForum(forum $forum): self
     {
-        if (!$this->figureForums->contains($figureForum)) {
-            $this->figureForums[] = $figureForum;
-            $figureForum->setUser($this);
+        if (!$this->forums->contains($forum)) {
+            $this->forums[] = $forum;
+            $forum->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeFigureForum(FigureForum $figureForum): self
+    public function removeForum(Forum $forum): self
     {
-        if ($this->figureForums->contains($figureForum)) {
-            $this->figureForums->removeElement($figureForum);
+        if ($this->forums->contains($forum)) {
+            $this->forums->removeElement($forum);
             // set the owning side to null (unless already changed)
-            if ($figureForum->getUser() === $this) {
-                $figureForum->setUser(null);
+            if ($forum->getUser() === $this) {
+                $forum->setUser(null);
             }
         }
 

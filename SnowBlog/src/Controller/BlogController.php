@@ -4,11 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Figure;
 use App\Form\FigureType;
-use App\Entity\FigureForum;
-use App\Form\FigureForumType;
+use App\Entity\Forum;
+use App\Form\ForumType;
 use App\Repository\UserRepository;
 use App\Repository\FigureRepository;
-use App\Repository\FigureForumRepository;
+use App\Repository\ForumRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use PhpParser\Node\Stmt\Else_;
@@ -20,15 +20,15 @@ class BlogController extends AbstractController
     /** 
     * @Route("/admin/dashboard", name="dashboard") 
     */
-    public function dashboard(UserRepository $repoUser, FigureRepository $repoFigure, FigureForumRepository $repoForum)
+    public function dashboard(UserRepository $repoUser, FigureRepository $repoFigure, ForumRepository $repoForum)
     {
         $figures = $repoFigure->findAll();
-        $figureForums = $repoForum->findBy(array(), array('figure' => 'ASC'));
+        $forums = $repoForum->findBy(array(), array('figure' => 'ASC'));
         $users = $repoUser->findBy(array(), array('email' => 'ASC'));
 
         return $this->render('admin/dashboard.html.twig', [
             'figures' => $figures,
-            'figureForums' => $figureForums,
+            'forums' => $forums,
             'users' => $users
         ]);
     }
@@ -36,7 +36,7 @@ class BlogController extends AbstractController
     /**
      * @Route("/admin/supprime/{entity}/{id}", name="delete")
      */
-    public function delete($entity, $id, FigureForumRepository $repoForum, FigureRepository $repoFigure, UserRepository $repoUser, ObjectManager $manager)
+    public function delete($entity, $id, ForumRepository $repoForum, FigureRepository $repoFigure, UserRepository $repoUser, ObjectManager $manager)
     {
         if ( $entity == 'user') {
             $user = $repoUser->find($id);
@@ -65,6 +65,37 @@ class BlogController extends AbstractController
             'controller_name' => 'BlogController',
             'figures' => $figures
         ]);
+    }
+
+    /** 
+    * @Route("/admin/profil", name="profil") 
+    */
+    public function profil(UserRepository $repoUser, ForumRepository $repoForum, FigureRepository $repoFigure)
+    {
+        $id = $this->getUser()->getId();
+        $user = $this->getUser();
+        $figure = $repoFigure->findByUser($id);
+        $forum = $repoForum->findByUser($id);
+
+        return $this->render('admin/profil.html.twig', [
+            'user' => $user,
+            'figure' => $figure,
+            'forum' => $forum
+        ]);
+    }
+
+    /**
+     * @Route("/admin/profil/figure", name="profilFigure")
+     */
+    public function profilFigure(FigureRepository $repo)
+    {
+        $id = $this->getUser()->getId();
+        $figures = $repo->findByUser($id);
+
+        return $this->render('admin/profil/figure.html.twig', [
+            'figures' => $figures
+        ]);
+
     }
 
     /**
@@ -121,10 +152,10 @@ class BlogController extends AbstractController
      */
     public function show(Figure $figure, Request $request, ObjectManager $manager)
     {
-        $figureForum = new FigureForum();
+        $figureForum = new Forum();
         $user = $this->getUser();
 
-        $form = $this->createForm(FigureForumType::class, $figureForum);      
+        $form = $this->createForm(ForumType::class, $figureForum);      
 
         $form->handleRequest($request);
 

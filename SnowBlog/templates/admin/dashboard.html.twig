@@ -31,12 +31,12 @@
     {% endfor %}
 </section>
 <section class="mt-5">
-      {% for figureForum in figureForums %}
+      {% for forum in forums %}
         <div class="d-flex">
-            <div>{{ figureForum.figure.name }}</div>
-            <div>{{ figureForum.id }}</div>
-            <div>{{ figureForum.content }}</div>
-             <a href="{{ path('delete', {'entity': 'forum', 'id': figureForum.id}) }}" class="col-1 btn btn-danger rounded-0">Supprimer</a>
+            <div>{{ forum.figure.name }}</div>
+            <div>{{ forum.id }}</div>
+            <div>{{ forum.content }}</div>
+             <a href="{{ path('delete', {'entity': 'forum', 'id': forum.id}) }}" class="col-1 btn btn-danger rounded-0">Supprimer</a>
         </div>        
     {% endfor %}   
 </section>

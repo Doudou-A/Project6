@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+<h1>Profil : {{ user.email }}</h1>
+<div>
+    <div>{{ user.username }}</div>
+    <div>{{ user.dateCreated | date('d/m/Y')}} à {{ user.dateCreated | date('H:i') }}</div>
+    <div>
+        Nombre de Figure postée : {{ figure | length}}
+        <a href="{{ path('profilFigure') }}">Voir toutes mes Figures postées</a>
+    </div>
+    <div>Nombre de réponse postée : {{ forum | length}}</div>
+</div>
+
+{% endblock %}

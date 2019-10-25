@@ -89,7 +89,7 @@ final class Versions
   'symfony/var-dumper' => 'v4.3.5@bde8957fc415fdc6964f33916a3755737744ff05',
   'symfony/web-profiler-bundle' => 'v4.3.5@b52bb32e6182d924303dbeb9c584396819fef118',
   'twig/twig' => 'v2.12.1@ddd4134af9bfc6dba4eff7c8447444ecc45b9ee5',
-  '__root__' => 'dev-UpdateFigure@59e69a4543b6400043004b80f53b7e75269752e6',
+  '__root__' => 'dev-Dashboard2@0821cee7f8c3a3a9ac010128012cad311ed7fd2a',
 );
 
     private function __construct()

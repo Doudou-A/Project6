@@ -33,43 +33,42 @@
     </article>
 
     <section id="commentaires">
-        {% if figure.figureForums|length == 0 %}
+        {% if figure.forums|length == 0 %}
         <h2> Soyez le premier à discuter de cette figure : </h2>
-        {% elseif figure.figureForums|length == 1 %}
-        <h2>{{ figure.figureForums | length }} Réponse : </h2>
+        {% elseif figure.forums|length == 1 %}
+        <h2>{{ figure.forums | length }} Réponse : </h2>
         {% else %}    
-        <h2>{{ figure.figureForums | length }} Réponses : </h2>
+        <h2>{{ figure.forums | length }} Réponses : </h2>
         {% endif %}
-        {% for figureForum in figure.figureForums %}
-            <div class="comment">
-                <div class="row">
-                    <div class="col-3">
-                        {{ figureForum.user.username }} 
-                        (<small>{{ figureForum.dateCreated | date('d/m/Y')}})
-                            <div class="col">
-                                {{ figureForum.content | raw }}</div>
-                        </div>
+        {% for forum in figure.forums %}
+        <div class="comment">
+            <div class="row">
+                <div class="col-3">
+                    {{ forum.user.username }} 
+                    (<small>{{ forum.dateCreated | date('d/m/Y')}}</small>)
+                        <div class="col">
+                            {{ forum.content | raw }}</div>
                     </div>
                 </div>
-            {% endfor %}
-
-            {% if app.user %}
-            {{ form_start(formForum) }}
-            <div class="border border-primrary">
-                {{ app.user.username }}
             </div>
-            {{ form_row(formForum.content) }}
+        {% endfor %}
 
-            <button type="submit" class="btn btn-success"> Répondre ! </button>
-            {{ form_end(formForum) }}
+        {% if app.user %}
+        {{ form_start(formForum) }}
+        <div class="border border-primrary">
+            {{ app.user.username }}
+        </div>
+        {{ form_row(formForum.content) }}
+        <button type="submit" class="btn btn-success"> Répondre ! </button>
+        {{ form_end(formForum) }}
 
-            {% else %}
-                <h2> Vous ne pouvez pas Répondre si vous n'êtes pas connecté !</h2>
-                <a href="{{path('security_login')}}" class="btn btn-primary">
-                    Connexion
-                 </a>
-            {% endif %}
+        {% else %}
+            <h2> Vous ne pouvez pas Répondre si vous n'êtes pas connecté !</h2>
+            <a href="{{path('security_login')}}" class="btn btn-primary">
+                Connexion
+                </a>
+        {% endif %}
 
-        </section>
+    </section>
 
     {% endblock %}

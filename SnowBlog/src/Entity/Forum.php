@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\FigureForumRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ForumRepository")
  */
-class FigureForum
+class Forum
 {
     /**
      * @ORM\Id()
@@ -28,6 +28,7 @@ class FigureForum
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="figureForums")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $user;
 
