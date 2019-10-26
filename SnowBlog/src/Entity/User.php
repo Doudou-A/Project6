@@ -62,6 +62,11 @@ class User implements UserInterface
      */
     private $figures;
 
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
     public function __construct()
     {
         $this->forums = new ArrayCollection();
@@ -197,6 +202,13 @@ class User implements UserInterface
                 $figure->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function setRoles(string $role): self
+    {
+        $this->roles = roles;
 
         return $this;
     }

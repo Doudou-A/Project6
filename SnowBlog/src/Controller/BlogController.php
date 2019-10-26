@@ -54,19 +54,6 @@ class BlogController extends AbstractController
 
     }
 
-    /**
-     * @Route("/blog", name="blog")
-     */
-    public function index(FigureRepository $repo)
-    {
-        $figures = $repo->findAll();
-
-        return $this->render('blog/index.html.twig', [
-            'controller_name' => 'BlogController',
-            'figures' => $figures
-        ]);
-    }
-
     /** 
     * @Route("/admin/profil", name="profil") 
     */
@@ -113,13 +100,15 @@ class BlogController extends AbstractController
     }
 
     /**
-    * @Route("/", name="homepage")
+    * @Route("/", name="blog")
     */
-    public function home()
+    public function index(FigureRepository $repo)
     {
-    	return $this->render('blog/home.html.twig', [
-            'title' => "Meilleur SnowBlog",
-            'age' => 18
+    	$figures = $repo->findAll();
+
+        return $this->render('index.html.twig', [
+            'controller_name' => 'BlogController',
+            'figures' => $figures
         ]);
     }
 
@@ -155,7 +144,7 @@ class BlogController extends AbstractController
             return $this->redirectToRoute('blog_show', ['id' =>$figure->getid()]);
         } 
 
-        return $this->render('blog/create.html.twig', [
+        return $this->render('blog/formFigure.html.twig', [
             'formFigure' =>$form->createView(),
             'editMode' => $figure->getId() !==null
         ]);
