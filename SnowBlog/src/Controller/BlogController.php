@@ -17,6 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BlogController extends AbstractController
 {
+
     /** 
     * @Route("/admin/dashboard", name="dashboard") 
     */

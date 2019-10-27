@@ -63,9 +63,20 @@ class User implements UserInterface
     private $figures;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="array")
      */
     private $roles = [];
+
+    public function getRoles() {
+        if (empty($this->roles)) {
+            return ['ROLE_USER'];
+        }
+        return $this->roles;
+    }
+
+    function addRole($role) {
+        $this->roles[] = $role;
+    }
 
     public function __construct()
     {
@@ -129,17 +140,6 @@ class User implements UserInterface
     public function getSalt()
     {
         return null;
-    }
-
-    public function getRoles():array
-    {
-        $roles[] = 'ROLE_ADMIN';
-
-        if (empty($roles)) {
-            $roles[] = 'ROLE_USER';
-        }
-
-        return array_unique($roles);
     }
 
     public function eraseCredentials() {}
@@ -206,9 +206,9 @@ class User implements UserInterface
         return $this;
     }
 
-    public function setRoles(string $role): self
+    public function setRoles($roles)
     {
-        $this->roles = roles;
+        $this->roles[] = $roles;
 
         return $this;
     }
