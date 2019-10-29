@@ -1,23 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}SnowBlog{% endblock %}
+{% block title %}Tricks
+{% endblock %}
 
 {% block body %}
-<section class="articles">
-    <div class="min-vw-100 min-vh-100">
-        <img src="http://placehold.it/" alt="SnowBlogImg" class="w-100 mh-100">
-    </div>
-    {% for figure in figures %}
-        <article>
-            <h2>{{ figure.name }}</h2>
-            <div class="metadata">Ecrit le {{ figure.dateCreated | date('d/m/Y') }} à {{ figure.dateCreated | date('H:i') }} dans la catégorie figure</div>
-            <div class="content">
-                <img src="{{ figure.image }}" alt="">
-                {{ figure.content }}
-                <a href="{{ path('blog_show', {'id': figure.id}) }}" class="btn btn-primary">Lire la suite</a>
+    <section class="article" id="Home">
+        <div>
+            <img src="capture.png" alt="SnowBlogImg" class="w-auto min-vh-100 mx-auto mt-nav">
+            <div id="arrowDown" class="arrow">
+                <a href="#tricks">&#8595;</a>
             </div>
-        </article>        
-    {% endfor %}
-   
-</section>
+            <div id="arrowTop" class="arrow" style="display : none;">
+                <a href="#Home">&#8593;</a>
+            </div>
+        </div>
+        <div class="d-flex  justify-content-around min-vh-100">
+            {% for figure in figures %}
+                <article id="tricks" class="mt-nav col-lg-2 flex-wrap">
+                    <h2>{{ figure.name }}</h2>
+                    <div class="metadata">Ecrit le
+                        {{ figure.dateCreated | date('d/m/Y') }}
+                        à
+                        {{ figure.dateCreated | date('H:i') }}
+                        dans la catégorie figure</div>
+                    <div class="content">
+                        <img src="{{ figure.image }}" alt="">
+                        {{ figure.content }}
+                        <a href="{{ path('blog_show', {'id': figure.id}) }}" class="btn btn-primary">Lire la suite</a>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        var arrowDown = document.getElementById('arrowDown');
+        var arrowTop = document.getElementById('arrowTop');
+        arrowDown.onclick = function () {
+            arrowDown.style.display = "none";
+            arrowTop.style.display = "block";
+        }
+        arrowTop.onclick = function () {
+            arrowTop.style.display = "none";
+            arrowDown.style.display = "block";
+        }
+    </script>
 {% endblock %}
