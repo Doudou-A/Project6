@@ -18,7 +18,12 @@ class SecurityController extends AbstractController
      * @Route("/inscription", name="security_registration")
      */
     public function registration(Request $request, ObjectManager $manager,UserPasswordEncoderInterface $encoder) {
-        $user = new User();
+
+        $user = $this->getUser();
+
+        if(!$user){
+            $user = new User();
+        }
 
         $form = $this->createForm(RegistrationType::class, $user);
 
@@ -47,7 +52,7 @@ class SecurityController extends AbstractController
     /** 
     * @Route("/connexion", name="security_login")
     */
-    public function login(Request $request, AuthenticationUtils $authUtils)
+    public function login(AuthenticationUtils $authUtils)
     {
         $error = $authUtils->getLastAuthenticationError();
 

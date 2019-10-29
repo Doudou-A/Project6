@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use AppBundle\Form\DataTransformer\StringToArrayTransformer;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -61,6 +62,21 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Figure", mappedBy="user")
      */
     private $figures;
+
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $roles = [];
+
+    public function getRoles()
+    {
+        return [$this->roles];
+        return ['ROLE_USER'];
+    }
+
+    function addRoles($roles) {
+        $this->roles[] = $roles;
+    }
 
     public function __construct()
     {
@@ -126,17 +142,6 @@ class User implements UserInterface
         return null;
     }
 
-    public function getRoles():array
-    {
-        $roles[] = 'ROLE_ADMIN';
-
-        if (empty($roles)) {
-            $roles[] = 'ROLE_USER';
-        }
-
-        return array_unique($roles);
-    }
-
     public function eraseCredentials() {}
 
     /**
@@ -199,5 +204,13 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    public function setRoles(array $roles)
+    {
+      
+      $this->roles = (array('roles' =>$roles));
+       
+      return $this;
     }
 }

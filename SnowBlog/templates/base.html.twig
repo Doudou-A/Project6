@@ -12,7 +12,7 @@
 
         <body>
             <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-                <a class="navbar-brand" href="{{ path('homepage')}}">SnowBlog</a>
+                <a class="navbar-brand" href="{{ path('blog')}}">SnowBlog</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -20,7 +20,7 @@
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav mr-auto row justify-content-between">
                         <li class="nav-item active">
-                            <a class="nav-link" href="{{path('blog')}}">Blog
+                            <a class="nav-link" href="{{path('security_registration')}}">S'inscrire
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
@@ -46,7 +46,7 @@
                     </div>
                 {% endif %}
             </nav>
-            <div class="container"> {% block body %}{% endblock %}
+            <div class="container-fluid p-0"> {% block body %}{% endblock %}
                 </div>
                 {% block javascripts %}{% endblock %}
             </body>

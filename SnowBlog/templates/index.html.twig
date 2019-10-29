@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Salut BlogController!{% endblock %}
+{% block title %}SnowBlog{% endblock %}
 
 {% block body %}
 <section class="articles">
-
+    <div class="min-vw-100 min-vh-100">
+        <img src="http://placehold.it/" alt="SnowBlogImg" class="w-100 mh-100">
+    </div>
     {% for figure in figures %}
         <article>
             <h2>{{ figure.name }}</h2>
