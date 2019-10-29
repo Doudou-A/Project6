@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use AppBundle\Form\DataTransformer\StringToArrayTransformer;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -67,15 +68,14 @@ class User implements UserInterface
      */
     private $roles = [];
 
-    public function getRoles() {
-        if (empty($this->roles)) {
-            return ['ROLE_USER'];
-        }
-        return $this->roles;
+    public function getRoles()
+    {
+        return [$this->roles];
+        return ['ROLE_USER'];
     }
 
-    function addRole($role) {
-        $this->roles[] = $role;
+    function addRoles($roles) {
+        $this->roles[] = $roles;
     }
 
     public function __construct()
@@ -206,10 +206,11 @@ class User implements UserInterface
         return $this;
     }
 
-    public function setRoles($roles)
+    public function setRoles(array $roles)
     {
-        $this->roles[] = $roles;
-
-        return $this;
+      
+      $this->roles = (array('roles' =>$roles));
+       
+      return $this;
     }
 }
