@@ -19,8 +19,8 @@ class BlogController extends AbstractController
 {
 
     /** 
-    * @Route("/admin/dashboard", name="dashboard") 
-    */
+     * @Route("/admin/dashboard", name="dashboard") 
+     */
     public function dashboard(UserRepository $repoUser, FigureRepository $repoFigure, ForumRepository $repoForum)
     {
         $figures = $repoFigure->findAll();
@@ -39,25 +39,24 @@ class BlogController extends AbstractController
      */
     public function delete($entity, $id, ForumRepository $repoForum, FigureRepository $repoFigure, UserRepository $repoUser, ObjectManager $manager)
     {
-        if ( $entity == 'user') {
+        if ($entity == 'user') {
             $user = $repoUser->find($id);
             $manager->remove($user);
-        } elseif ( $entity == 'figure' ){
+        } elseif ($entity == 'figure') {
             $figure = $repoFigure->find($id);
             $manager->remove($figure);
-        } elseif ( $entity == 'forum'){
+        } elseif ($entity == 'forum') {
             $forum = $repoForum->find($id);
             $manager->remove($forum);
         }
         $manager->flush();
 
         return $this->redirectToRoute('dashboard');
-
     }
 
     /** 
-    * @Route("/admin/profil", name="profil") 
-    */
+     * @Route("/admin/profil", name="profil") 
+     */
     public function profil(UserRepository $repoUser, ForumRepository $repoForum, FigureRepository $repoFigure)
     {
         $id = $this->getUser()->getId();
@@ -83,7 +82,6 @@ class BlogController extends AbstractController
         return $this->render('admin/profil/forum.html.twig', [
             'forums' => $forums
         ]);
-
     }
 
     /**
@@ -97,15 +95,14 @@ class BlogController extends AbstractController
         return $this->render('admin/profil/figure.html.twig', [
             'figures' => $figures
         ]);
-
     }
 
     /**
-    * @Route("/", name="blog")
-    */
+     * @Route("/", name="blog")
+     */
     public function index(FigureRepository $repo)
     {
-    	$figures = $repo->findAll();
+        $figures = $repo->findBy(array(), array('id' => 'DESC'), 5);
 
         return $this->render('index.html.twig', [
             'controller_name' => 'BlogController',
@@ -114,12 +111,28 @@ class BlogController extends AbstractController
     }
 
     /**
+     * @Route("/load/{id}", name="annonce-ajax-next", options = { "expose" = true } )
+     */
+    public function viewAction(Request $request, $id, FigureRepository $repo)
+    {
+        echo'ok';exit;
+        //if ($request->isXmlHttpRequest()) {
+        $figures = $repo->findOther($id);
+
+        var_dump($figures);
+
+        $response = new JsonResponse();
+        return $response->setData($figures);
+        // }
+    }
+
+    /**
      *  @Route("/blog/new", name="blog_create")
      *  @Route("/blog/{id}/edit", name="blog_edit")
      */
     public function formFigure(Figure $figure = null, Request $request, ObjectManager $manager)
     {
-        if(!$figure){
+        if (!$figure) {
             $figure = new Figure();
         }
 
@@ -129,11 +142,10 @@ class BlogController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
-            if(!$figure->getId()){
+        if ($form->isSubmitted() && $form->isValid()) {
+            if (!$figure->getId()) {
                 $figure->setDateCreated(new \DateTime());
-            }
-            else{
+            } else {
                 $figure->setDateLastUpdate(new \Datetime());
             }
             $figure->setUser($user);
@@ -142,12 +154,12 @@ class BlogController extends AbstractController
             $manager->persist($figure);
             $manager->flush();
 
-            return $this->redirectToRoute('blog_show', ['id' =>$figure->getid()]);
-        } 
+            return $this->redirectToRoute('blog_show', ['id' => $figure->getid()]);
+        }
 
         return $this->render('blog/formFigure.html.twig', [
-            'formFigure' =>$form->createView(),
-            'editMode' => $figure->getId() !==null
+            'formFigure' => $form->createView(),
+            'editMode' => $figure->getId() !== null
         ]);
     }
 
@@ -159,11 +171,11 @@ class BlogController extends AbstractController
         $figureForum = new Forum();
         $user = $this->getUser();
 
-        $form = $this->createForm(ForumType::class, $figureForum);      
+        $form = $this->createForm(ForumType::class, $figureForum);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $figureForum->setDateCreated(new \DateTime());
             $figureForum->setUser($user);
             $figureForum->setFigure($figure);

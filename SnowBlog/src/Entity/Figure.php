@@ -187,4 +187,23 @@ class Figure
 
         return $this;
     }
+
+    public function findOther($id) {
+        return $this->createQueryBuilder('ad')
+                        ->select('ad,cat,scat,reg,cit')
+                        ->join('ad.city', 'cit')
+                        ->join('ad.subcategory', 'scat')
+                        ->join('cit.region', 'reg')
+                        ->join('scat.category', 'cat')
+                        ->orderBy('ad.id', 'DESC')
+                        ->andWhere('ad.enabled = :true')
+                        ->andWhere('ad.archived = :false')
+                        ->andWhere('ad.id < :id')
+                        ->setParameter('true', 1)
+                        ->setParameter('false', 0)
+                        ->setParameter('id', $id)
+                        ->getQuery()
+                        ->getResult();
+    }
+
 }

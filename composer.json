@@ -9,7 +9,8 @@
         "symfony/security-bundle": "^4.3",
         "symfony/monolog-bundle": "^3.4",
         "doctrine/doctrine-fixtures-bundle": "^3.2",
-        "doctrine/doctrine-migrations-bundle": "^2.0"
+        "doctrine/doctrine-migrations-bundle": "^2.0",
+        "friendsofsymfony/jsrouting-bundle": "^2.4"
     },
     "require-dev": {
         "doctrine/data-fixtures": "^1.3",

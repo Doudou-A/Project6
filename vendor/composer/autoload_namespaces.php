@@ -8,4 +8,5 @@ $baseDir = dirname($vendorDir);
 return array(
     'Twig_' => array($vendorDir . '/twig/twig/lib'),
     'ProxyManager\\' => array($vendorDir . '/ocramius/proxy-manager/src'),
+    'JsonpCallbackValidator' => array($vendorDir . '/willdurand/jsonp-callback-validator/src'),
 );

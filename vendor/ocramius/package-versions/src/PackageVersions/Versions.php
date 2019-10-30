@@ -39,6 +39,7 @@ final class Versions
   'doctrine/orm' => 'v2.6.4@b52ef5a1002f99ab506a5a2d6dba5a2c236c5f43',
   'doctrine/persistence' => '1.1.1@3da7c9d125591ca83944f477e65ed3d7b4617c48',
   'doctrine/reflection' => 'v1.0.0@02538d3f95e88eb397a5f86274deb2c6175c2ab6',
+  'friendsofsymfony/jsrouting-bundle' => '2.4.0@e42ed450eac2b61d5fcba9cd834c294a429e9a40',
   'jdorn/sql-formatter' => 'v1.2.17@64990d96e0959dff8e059dfcdc1af130728d92bc',
   'monolog/monolog' => '1.25.1@70e65a5470a42cfec1a7da00d30edb6e617e8dcf',
   'ocramius/package-versions' => '1.5.1@1d32342b8c1eb27353c8887c366147b4c2da673c',
@@ -76,11 +77,13 @@ final class Versions
   'symfony/routing' => 'v4.3.5@3b174ef04fe66696524efad1e5f7a6c663d822ea',
   'symfony/security' => 'v4.3.5@78ee59bdea6f34658f0c1a296b558aa922c14dac',
   'symfony/security-bundle' => 'v4.3.5@aa3cd52168c2e5c99effe560907f22fcffe8a788',
+  'symfony/serializer' => 'v4.3.5@805eacc72d28e237ef31659344a4d72acef335ec',
   'symfony/service-contracts' => 'v1.1.7@ffcde9615dc5bb4825b9f6aed07716f1f57faae0',
   'symfony/stopwatch' => 'v4.3.5@1e4ff456bd625be5032fac9be4294e60442e9b71',
   'symfony/translation-contracts' => 'v1.1.7@364518c132c95642e530d9b2d217acbc2ccac3e6',
   'symfony/validator' => 'v4.3.5@dd344bae7894ce8d6c399d854d894eb6e52ee178',
   'symfony/var-exporter' => 'v4.3.5@d5b4e2d334c1d80e42876c7d489896cfd37562f2',
+  'willdurand/jsonp-callback-validator' => 'v1.1.0@1a7d388bb521959e612ef50c5c7b1691b097e909',
   'zendframework/zend-code' => '3.4.0@46feaeecea14161734b56c1ace74f28cb329f194',
   'zendframework/zend-eventmanager' => '3.2.1@a5e2583a211f73604691586b8406ff7296a946dd',
   'symfony/profiler-pack' => 'v1.0.4@99c4370632c2a59bb0444852f92140074ef02209',
@@ -89,7 +92,7 @@ final class Versions
   'symfony/var-dumper' => 'v4.3.5@bde8957fc415fdc6964f33916a3755737744ff05',
   'symfony/web-profiler-bundle' => 'v4.3.5@b52bb32e6182d924303dbeb9c584396819fef118',
   'twig/twig' => 'v2.12.1@ddd4134af9bfc6dba4eff7c8447444ecc45b9ee5',
-  '__root__' => 'dev-Dashboard2@0821cee7f8c3a3a9ac010128012cad311ed7fd2a',
+  '__root__' => 'dev-Home@1205193ccc0038f3e657d2d3157963c19e2763ab',
 );
 
     private function __construct()
