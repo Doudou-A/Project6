@@ -50,6 +50,7 @@ class SecurityController extends AbstractController
         ]);
     }
 
+     /**
      * @Route("/security/{email}", name="sendMail")
      */
     public function sendMail(User $user, \Swift_Mailer $mailer)
@@ -65,6 +66,7 @@ class SecurityController extends AbstractController
 
         return $this->redirectToRoute('blog');
     }
+    
     /**
      * @Route("/security/confirm/{id}", name="confirmMail")
      */
