@@ -2,16 +2,19 @@
 
 namespace App\Controller;
 
-use App\Entity\Figure;
-use App\Form\FigureType;
 use App\Entity\Forum;
+use App\Entity\Media;
+use App\Entity\Figure;
 use App\Form\ForumType;
+use App\Form\MediaType;
+use App\Form\FigureType;
+use PhpParser\Node\Stmt\Else_;
 use App\Repository\UserRepository;
-use App\Repository\FigureRepository;
 use App\Repository\ForumRepository;
+use App\Repository\MediaRepository;
+use App\Repository\FigureRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
-use PhpParser\Node\Stmt\Else_;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -37,7 +40,7 @@ class BlogController extends AbstractController
     /**
      * @Route("/admin/supprime/{entity}/{id}", name="delete")
      */
-    public function delete($entity, $id, ForumRepository $repoForum, FigureRepository $repoFigure, UserRepository $repoUser, ObjectManager $manager)
+    public function delete($entity, $id, ForumRepository $repoForum, FigureRepository $repoFigure, UserRepository $repoUser, MediaRepository $repoMedia, ObjectManager $manager)
     {
         if ($entity == 'user') {
             $user = $repoUser->find($id);
@@ -47,11 +50,19 @@ class BlogController extends AbstractController
             $manager->remove($figure);
         } elseif ($entity == 'forum') {
             $forum = $repoForum->find($id);
-            $manager->remove($forum);
+            $manager->remove($forum);                                                        
+        } elseif ($entity == 'media') {
+            $media = $repoMedia->find($id);
+            $mediaRoute = $repoMedia->find($id);
+            $manager->remove($media);
         }
         $manager->flush();
 
-        return $this->redirectToRoute('dashboard');
+        if ($entity == 'figure') {
+            return $this->redirectToRoute('blog_');
+        } elseif ($entity == 'media') {
+            return $this->redirectToRoute('blog_show', ['id' => $mediaRoute->getFigure()->getId()]);
+        }
     }
 
     /** 
@@ -127,6 +138,31 @@ class BlogController extends AbstractController
     }
 
     /**
+     * @Route("/blog/media/{id}", name="medias")
+     */
+    public function formMedia(Figure $figure, Request $request, ObjectManager $manager)
+    {
+        $media = new Media();
+
+        $form = $this->createForm(MediaType::class, $media);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $media->setFigure($figure);
+            $manager->persist($media);
+            $manager->flush();
+
+            return $this->redirectToRoute('blog_show', ['id' => $figure->getid()]);
+        }
+
+        return $this->render('blog/formMedia.html.twig', [
+            'formMedia' => $form->createView()
+        ]);
+
+    }
+
+    /**
      *  @Route("/blog/new", name="blog_create")
      *  @Route("/blog/{id}/edit", name="blog_edit")
      */
@@ -166,7 +202,7 @@ class BlogController extends AbstractController
     /**
      *  @Route("/blog/{id}", name="blog_show")
      */
-    public function show(Figure $figure, Request $request, ObjectManager $manager)
+    public function show(Figure $figure, MediaRepository $repo, Request $request, ObjectManager $manager)
     {
         $figureForum = new Forum();
         $user = $this->getUser();
@@ -188,10 +224,13 @@ class BlogController extends AbstractController
             return $this->redirectToRoute('blog_show', ['id' => $figure->getId()]);
         }
 
+        $medias = $repo->findBy(array('figure' => $figure->getId()));
+
         return $this->render('blog/show.html.twig', [
             'figure' => $figure,
             'user' => $user,
-            'formForum' => $form->createView()
+            'formForum' => $form->createView(),
+            'medias' => $medias,
         ]);
     }
 }

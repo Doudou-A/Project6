@@ -64,13 +64,18 @@ class User implements UserInterface
     private $figures;
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="json")
      */
     private $roles = [];
 
     public function getRoles()
     {
-        return ['ROLE_USER'];
+        if(empty($this->roles)){
+            return ['ROLE_USER'];
+        }
+
+        return [$this->roles];
+        
     }
 
     function addRoles($roles) {

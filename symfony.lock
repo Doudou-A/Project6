@@ -11,8 +11,14 @@
             "config/routes/fos_js_routing.yaml"
         ]
     },
+    "friendsofsymfony/user-bundle": {
+        "version": "v2.1.2"
+    },
     "monolog/monolog": {
         "version": "1.25.1"
+    },
+    "paragonie/random_compat": {
+        "version": "v2.0.18"
     },
     "symfony/flex": {
         "version": "1.0",
@@ -25,6 +31,12 @@
         "files": [
             ".env"
         ]
+    },
+    "symfony/form": {
+        "version": "v4.3.5"
+    },
+    "symfony/intl": {
+        "version": "v4.3.5"
     },
     "symfony/monolog-bridge": {
         "version": "v4.3.5"
@@ -43,6 +55,12 @@
             "config/packages/test/monolog.yaml"
         ]
     },
+    "symfony/options-resolver": {
+        "version": "v4.3.5"
+    },
+    "symfony/polyfill-intl-icu": {
+        "version": "v1.12.0"
+    },
     "symfony/security-bundle": {
         "version": "3.3",
         "recipe": {
@@ -56,6 +74,9 @@
         ]
     },
     "symfony/serializer": {
+        "version": "v4.3.5"
+    },
+    "symfony/templating": {
         "version": "v4.3.5"
     },
     "willdurand/jsonp-callback-validator": {

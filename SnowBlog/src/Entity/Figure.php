@@ -63,9 +63,15 @@ class Figure
      */
     private $forums;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="figure", orphanRemoval=true)
+     */
+    private $medias;
+
     public function __construct()
     {
         $this->forums = new ArrayCollection();
+        $this->medias = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -188,22 +194,35 @@ class Figure
         return $this;
     }
 
-    public function findOther($id) {
-        return $this->createQueryBuilder('ad')
-                        ->select('ad,cat,scat,reg,cit')
-                        ->join('ad.city', 'cit')
-                        ->join('ad.subcategory', 'scat')
-                        ->join('cit.region', 'reg')
-                        ->join('scat.category', 'cat')
-                        ->orderBy('ad.id', 'DESC')
-                        ->andWhere('ad.enabled = :true')
-                        ->andWhere('ad.archived = :false')
-                        ->andWhere('ad.id < :id')
-                        ->setParameter('true', 1)
-                        ->setParameter('false', 0)
-                        ->setParameter('id', $id)
-                        ->getQuery()
-                        ->getResult();
+    /**
+     * @return Collection|Media[]
+     */
+    public function getMedias(): Collection
+    {
+        return $this->medias;
+    }
+
+    public function addMedia(Media $media): self
+    {
+        if (!$this->medias->contains($media)) {
+            $this->medias[] = $media;
+            $media->setFigure($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMedia(Media $media): self
+    {
+        if ($this->medias->contains($media)) {
+            $this->medias->removeElement($media);
+            // set the owning side to null (unless already changed)
+            if ($media->getFigure() === $this) {
+                $media->setFigure(null);
+            }
+        }
+
+        return $this;
     }
 
 }

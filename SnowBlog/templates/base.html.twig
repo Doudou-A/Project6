@@ -48,7 +48,7 @@
                 </div>
             {% endif %}
         </nav>
-        <div class="container-fluid p-0 mt-nav"> {% block body %}{% endblock %}
+        <div class="p-0 {# mt-nav #}" style="margin-top: 56px;"> {% block body %}{% endblock %}
             </div>
             {% block javascripts %}{% endblock %}
     </body>
