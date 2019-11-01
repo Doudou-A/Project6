@@ -32,6 +32,7 @@ class SecurityController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setDateCreated(new \DateTime());
+            $user->setConfirm(false);
 
             $hash = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($hash);
@@ -40,7 +41,7 @@ class SecurityController extends AbstractController
             $manager->flush();
 
             return $this->redirectToRoute('sendMail' ,[
-                'email' =>$user->getEmail()
+                'email' => $user->getEmail()
             ]);
         }
 
@@ -49,8 +50,7 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/mail/{email}", name="sendMail")
+     * @Route("/security/{email}", name="sendMail")
      */
     public function sendMail(User $user, \Swift_Mailer $mailer)
     {
@@ -58,21 +58,23 @@ class SecurityController extends AbstractController
             ->setFrom('send@example.com')
             ->setTo($user->getEmail())
             ->setBody('Voici le lien pour confirmer votre compte : </br>
-            http://localhost:8000/security/'.$user->getId().''
+            http://localhost:8000/security/confirm/'.$user->getId().''
         ,'text/html');
 
         $mailer->send($message);
 
         return $this->redirectToRoute('blog');
     }
-
     /**
-     * @Route("/security/{id}", name="sendMail")
+     * @Route("/security/confirm/{id}", name="confirmMail")
      */
-    public function confirmation(User $user)
+    public function confirmation(User $user, ObjectManager $manager)
     {
-        $user
-        return $this->redirectToRoute('blog');
+        $user->setConfirm(true);
+        $manager->persist($user);
+        $manager->flush();
+
+        return $this->render('security/mailConfirm.html.twig');
     }
 
     /** 

@@ -68,6 +68,11 @@ class User implements UserInterface
      */
     private $roles = [];
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $confirm;
+
     public function getRoles()
     {
         if(empty($this->roles)){
@@ -216,5 +221,17 @@ class User implements UserInterface
       $this->roles = (array('roles' =>$roles));
        
       return $this;
+    }
+
+    public function getConfirm(): ?bool
+    {
+        return $this->confirm;
+    }
+
+    public function setConfirm(bool $confirm): self
+    {
+        $this->confirm = $confirm;
+
+        return $this;
     }
 }
