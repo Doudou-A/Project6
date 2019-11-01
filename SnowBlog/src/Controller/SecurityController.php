@@ -17,11 +17,12 @@ class SecurityController extends AbstractController
     /**
      * @Route("/inscription", name="security_registration")
      */
-    public function registration(Request $request, ObjectManager $manager,UserPasswordEncoderInterface $encoder) {
+    public function registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+    {
 
         $user = $this->getUser();
 
-        if(!$user){
+        if (!$user) {
             $user = new User();
         }
 
@@ -29,7 +30,7 @@ class SecurityController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $user->setDateCreated(new \DateTime());
 
             $hash = $encoder->encodePassword($user, $user->getPassword());
@@ -38,20 +39,45 @@ class SecurityController extends AbstractController
             $manager->persist($user);
             $manager->flush();
 
-            return $this->redirectToRoute('security_login');
+            return $this->redirectToRoute('sendMail' ,[
+                'email' =>$user->getEmail()
+            ]);
         }
 
         return $this->render('security/registration.html.twig', [
             'form' => $form->createView()
         ]);
     }
-    
-    
-    
-    
+
+    /**
+     * @Route("/mail/{email}", name="sendMail")
+     */
+    public function sendMail(User $user, \Swift_Mailer $mailer)
+    {
+        $message = (new \Swift_Message('Mail de Confirmation'))
+            ->setFrom('send@example.com')
+            ->setTo($user->getEmail())
+            ->setBody('Voici le lien pour confirmer votre compte : </br>
+            http://localhost:8000/security/'.$user->getId().''
+        ,'text/html');
+
+        $mailer->send($message);
+
+        return $this->redirectToRoute('blog');
+    }
+
+    /**
+     * @Route("/security/{id}", name="sendMail")
+     */
+    public function confirmation(User $user)
+    {
+        $user
+        return $this->redirectToRoute('blog');
+    }
+
     /** 
-    * @Route("/connexion", name="security_login")
-    */
+     * @Route("/connexion", name="security_login")
+     */
     public function login(AuthenticationUtils $authUtils)
     {
         $error = $authUtils->getLastAuthenticationError();
@@ -59,14 +85,14 @@ class SecurityController extends AbstractController
         $lastUsername = $authUtils->getLastUsername();
 
         return $this->render('security/login.html.twig', [
-            'last_username' =>$lastUsername,
-            'error'         =>$error
+            'last_username' => $lastUsername,
+            'error'         => $error
         ]);
     }
 
-/**
- * @Route("/deconnexion", name="security_logout")
- */
+    /**
+     * @Route("/deconnexion", name="security_logout")
+     */
     public function logout()
     {
         throw new \Exeption('This sould never be reached!');

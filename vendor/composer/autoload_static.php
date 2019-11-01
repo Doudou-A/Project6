@@ -14,6 +14,8 @@ class ComposerStaticInit50f76ec3598233b640fa4666da00169d
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '6a47392539ca2329373e0d33e1dba053' => __DIR__ . '/..' . '/symfony/polyfill-intl-icu/bootstrap.php',
+        'def43f6c87e4f8dfd0c9e1b1bab14fe8' => __DIR__ . '/..' . '/symfony/polyfill-iconv/bootstrap.php',
+        '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
     );
 
@@ -33,6 +35,7 @@ class ComposerStaticInit50f76ec3598233b640fa4666da00169d
             'Symfony\\Polyfill\\Php72\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Intl\\Idn\\' => 26,
+            'Symfony\\Polyfill\\Iconv\\' => 23,
             'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Flex\\' => 13,
             'Symfony\\Contracts\\Translation\\' => 30,
@@ -65,6 +68,7 @@ class ComposerStaticInit50f76ec3598233b640fa4666da00169d
             'Symfony\\Component\\Cache\\' => 24,
             'Symfony\\Bundle\\WebProfilerBundle\\' => 33,
             'Symfony\\Bundle\\TwigBundle\\' => 26,
+            'Symfony\\Bundle\\SwiftmailerBundle\\' => 33,
             'Symfony\\Bundle\\SecurityBundle\\' => 30,
             'Symfony\\Bundle\\MonologBundle\\' => 29,
             'Symfony\\Bundle\\FrameworkBundle\\' => 31,
@@ -87,6 +91,10 @@ class ComposerStaticInit50f76ec3598233b640fa4666da00169d
         array (
             'FOS\\UserBundle\\' => 15,
             'FOS\\JsRoutingBundle\\' => 20,
+        ),
+        'E' => 
+        array (
+            'Egulias\\EmailValidator\\' => 23,
         ),
         'D' => 
         array (
@@ -136,6 +144,10 @@ class ComposerStaticInit50f76ec3598233b640fa4666da00169d
         'Symfony\\Polyfill\\Intl\\Idn\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-intl-idn',
+        ),
+        'Symfony\\Polyfill\\Iconv\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-iconv',
         ),
         'Symfony\\Polyfill\\Ctype\\' => 
         array (
@@ -265,6 +277,10 @@ class ComposerStaticInit50f76ec3598233b640fa4666da00169d
         array (
             0 => __DIR__ . '/..' . '/symfony/twig-bundle',
         ),
+        'Symfony\\Bundle\\SwiftmailerBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/swiftmailer-bundle',
+        ),
         'Symfony\\Bundle\\SecurityBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/security-bundle',
@@ -316,6 +332,10 @@ class ComposerStaticInit50f76ec3598233b640fa4666da00169d
         'FOS\\JsRoutingBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/friendsofsymfony/jsrouting-bundle',
+        ),
+        'Egulias\\EmailValidator\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/egulias/email-validator/EmailValidator',
         ),
         'Doctrine\\ORM\\' => 
         array (

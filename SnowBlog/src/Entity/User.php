@@ -17,7 +17,7 @@ use AppBundle\Form\DataTransformer\StringToArrayTransformer;
  * message= "L'email que vous avez indiqué est déja utilisé !"
  * )
  */
-class User implements UserInterface  
+class User implements UserInterface 
 {
     /**
      * @ORM\Id()

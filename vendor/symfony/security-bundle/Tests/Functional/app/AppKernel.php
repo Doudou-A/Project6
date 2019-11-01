@@ -53,7 +53,6 @@ class AppKernel extends Kernel
 
     public function registerBundles()
     {
-
         if (!is_file($filename = $this->getProjectDir().'/'.$this->testCase.'/bundles.php')) {
             throw new \RuntimeException(sprintf('The bundles file "%s" does not exist.', $filename));
         }
