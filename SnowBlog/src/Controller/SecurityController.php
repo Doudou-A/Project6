@@ -106,7 +106,6 @@ class SecurityController extends AbstractController
         return $this->redirectToRoute('blog');
     }
 
-
     /**
      * @Route("/security/forgotPassword/{token}", name="forgotPassword")
      */
@@ -150,6 +149,7 @@ class SecurityController extends AbstractController
             'error1' => $error1
         ]);
     }
+
 
     /**
      * @Route("/security/confirm/{token}", name="confirmMail")
