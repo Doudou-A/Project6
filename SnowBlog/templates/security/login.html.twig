@@ -25,6 +25,7 @@
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
         <button type="submit">login</button>
+        <a href="{{path('formEmailForgot')}}" class="btn">Oubliez le mot de passe</a>
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <p>Connecté : Username:
                 {{ app.user.pseudo }}</p>

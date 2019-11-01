@@ -69,9 +69,15 @@ class User implements UserInterface
     private $roles = [];
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $token;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private $confirm;
+
 
     public function getRoles()
     {
@@ -231,6 +237,18 @@ class User implements UserInterface
     public function setConfirm(bool $confirm): self
     {
         $this->confirm = $confirm;
+
+        return $this;
+    }
+
+    public function getToken(): ?int
+    {
+        return $this->token;
+    }
+
+    public function setToken(int $token): self
+    {
+        $this->token = $token;
 
         return $this;
     }
