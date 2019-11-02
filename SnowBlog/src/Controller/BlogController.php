@@ -113,7 +113,6 @@ class BlogController extends AbstractController
      */
     public function index(FigureRepository $repo)
     {
-        phpinfo();
         $figures = $repo->findBy(array(), array('id' => 'DESC'), 5);
 
         return $this->render('index.html.twig', [

@@ -20,7 +20,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/inscription", name="security_registration")
      */
-    public function registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+    public function registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder, \Swift_Mailer $mailer)
     {
 
         $user = $this->getUser();
@@ -44,9 +44,18 @@ class SecurityController extends AbstractController
             $manager->persist($user);
             $manager->flush();
 
-            return $this->redirectToRoute('mailRegistration', [
-                'email' => $user->getEmail()
-            ]);
+            $message = (new \Swift_Message('Mail de Confirmation'))
+            ->setFrom('send@example.com')
+            ->setTo($user->getEmail())
+            ->setBody(
+                'Voici le lien pour confirmer votre compte : </br>
+            http://localhost:8000/security/confirm/' . $user->getToken() . '',
+                'text/html'
+            );
+
+            $mailer->send($message);
+
+            return $this->redirectToRoute('blog');
         }
 
         return $this->render('security/registration.html.twig', [
@@ -88,25 +97,6 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/security/{email}", name="mailRegistration")
-     */
-    public function mailRegistration(User $user, \Swift_Mailer $mailer)
-    {
-        $message = (new \Swift_Message('Mail de Confirmation'))
-            ->setFrom('send@example.com')
-            ->setTo($user->getEmail())
-            ->setBody(
-                'Voici le lien pour confirmer votre compte : </br>
-            http://localhost:8000/security/confirm/' . $user->getToken() . '',
-                'text/html'
-            );
-
-        $mailer->send($message);
-
-        return $this->redirectToRoute('blog');
-    }
-
-    /**
      * @Route("/security/forgotPassword/{token}", name="forgotPassword")
      */
     public function forgotPassword(User $user, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
@@ -126,6 +116,7 @@ class SecurityController extends AbstractController
             if ($form["password"]->getData() == $form["confirmPassword"]->getData()) {
                 $hash = $encoder->encodePassword($user, $form["password"]->getData());
                 $user->setPassword($hash);
+                $user->setToken(rand());
 
                 $manager->persist($user);
                 $manager->flush();
@@ -157,6 +148,7 @@ class SecurityController extends AbstractController
     public function confirmation(User $user, ObjectManager $manager)
     {
         $user->setConfirm(true);
+        $user->setToken(rand());
         $manager->persist($user);
         $manager->flush();
 

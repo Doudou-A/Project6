@@ -81,11 +81,13 @@ class User implements UserInterface
 
     public function getRoles()
     {
-        if(empty($this->roles)){
+        /* if(empty($this->roles)){
             return ['ROLE_USER'];
         }
 
-        return [$this->roles];
+        return [$this->roles]; */
+
+        return ['ROLE_USER'];
         
     }
 

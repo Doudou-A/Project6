@@ -13,7 +13,7 @@
                 <img src="{{ figure.image }}" alt="TrickSnow" height="50%" width="auto">
                 {{ figure.content }}
             </div>
-            <div class="row">
+            <div class="d-flex overflow-auto justify-content-start">
                 {% for media in medias %}
                     <article class="mt-nav row col-lg-2 h-25 m-3" id="{{media.id}}">
                         {% if media.type == 'image' %}
