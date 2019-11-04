@@ -4,20 +4,23 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationType;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class SecurityController extends AbstractController
 {
     /**
      * @Route("/inscription", name="security_registration")
      */
-    public function registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+    public function registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder, \Swift_Mailer $mailer)
     {
 
         $user = $this->getUser();
@@ -32,6 +35,7 @@ class SecurityController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setDateCreated(new \DateTime());
+            $user->setToken(rand());
             $user->setConfirm(false);
 
             $hash = $encoder->encodePassword($user, $user->getPassword());
@@ -40,9 +44,18 @@ class SecurityController extends AbstractController
             $manager->persist($user);
             $manager->flush();
 
-            return $this->redirectToRoute('sendMail' ,[
-                'email' => $user->getEmail()
-            ]);
+            $message = (new \Swift_Message('Mail de Confirmation'))
+            ->setFrom('send@example.com')
+            ->setTo($user->getEmail())
+            ->setBody(
+                'Voici le lien pour confirmer votre compte : </br>
+            http://localhost:8000/security/confirm/' . $user->getToken() . '',
+                'text/html'
+            );
+
+            $mailer->send($message);
+
+            return $this->redirectToRoute('blog');
         }
 
         return $this->render('security/registration.html.twig', [
@@ -51,28 +64,91 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/security/{email}", name="sendMail")
+     * @Route("/security/formEmail", name="formEmailForgot")
      */
-    public function sendMail(User $user, \Swift_Mailer $mailer)
+    public function formEmail(UserRepository $repo, \Swift_Mailer $mailer, Request $request)
     {
-        $message = (new \Swift_Message('Mail de Confirmation'))
-            ->setFrom('send@example.com')
-            ->setTo($user->getEmail())
-            ->setBody('Voici le lien pour confirmer votre compte : </br>
-            http://localhost:8000/security/confirm/'.$user->getId().''
-        ,'text/html');
 
-        $mailer->send($message);
+        $form = $this->createFormBuilder()
+            ->add('email', EmailType::class)
+            ->getForm();
 
-        return $this->redirectToRoute('blog');
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $repo->findOneByEmail($form["email"]->getData());
+            $message = (new \Swift_Message('Mot de passe oublié'))
+                ->setFrom('send@example.com')
+                ->setTo($user->getEmail())
+                ->setBody(
+                    'Voici le lien pour confirmer votre compte : </br>
+            http://localhost:8000/security/forgotPassword/' . $user->getToken() . '',
+                    'text/html'
+                );
+
+            $mailer->send($message);
+
+            return $this->redirectToRoute('blog');
+        }
+
+        return $this->render('security/formMailForgot.html.twig', [
+            'formEmail' => $form->createView()
+        ]);
     }
 
     /**
-     * @Route("/security/confirm/{id}", name="confirmMail")
+     * @Route("/security/forgotPassword/{token}", name="forgotPassword")
+     */
+    public function forgotPassword(User $user, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+    {
+        if ($user == null){
+            echo "ok";
+        }
+
+        $form = $this->createFormBuilder()
+            ->add('password', PasswordType::class)
+            ->add('confirmPassword', PasswordType::class)
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form["password"]->getData() == $form["confirmPassword"]->getData()) {
+                $hash = $encoder->encodePassword($user, $form["password"]->getData());
+                $user->setPassword($hash);
+                $user->setToken(rand());
+
+                $manager->persist($user);
+                $manager->flush();
+            }
+            else{
+            $error1 = true;
+
+            return $this->render('security/forgotPassword.html.twig', [
+                'formPassword' => $form->createView(),
+                'error1' => $error1
+            ]);
+            }
+
+            return $this->redirectToRoute('blog');
+        }
+
+        $error1 = null;
+
+        return $this->render('security/forgotPassword.html.twig', [
+            'formPassword' => $form->createView(),
+            'error1' => $error1
+        ]);
+    }
+
+
+    /**
+     * @Route("/security/confirm/{token}", name="confirmMail")
      */
     public function confirmation(User $user, ObjectManager $manager)
     {
         $user->setConfirm(true);
+        $user->setToken(rand());
         $manager->persist($user);
         $manager->flush();
 

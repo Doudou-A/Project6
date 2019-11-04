@@ -6,6 +6,7 @@ use App\Entity\Media;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class MediaType extends AbstractType
@@ -15,11 +16,11 @@ class MediaType extends AbstractType
         /* $builder
             ->add('file')
         ; */
-        $builder->add('file')
+        $builder->add('file', FileType::class)
                 ->add('type', ChoiceType::class, [
                     'choices'  => [
                     'Image' => 'image',
-                    'Vidéo' => 'video',
+                    'Vidéo' => 'video'
             ],
         ]);
     }
