@@ -139,7 +139,7 @@ interface AuthenticatorInterface extends AuthenticationEntryPointInterface
      * @return Response|null
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey);
-
+        
     /**
      * Does this method support remember me cookies?
      *

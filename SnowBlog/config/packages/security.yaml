@@ -14,13 +14,13 @@ security:
             entity:
                 class: App\Entity\User
                 property: email
+        
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             anonymous: true
-
             provider: our_db_provider
 
             form_login:
@@ -29,6 +29,7 @@ security:
             logout:
                 path:   security_logout   
                 target: blog
+            
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
@@ -38,5 +39,5 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/admin/, roles: ROLE_ADMIN }
+        #- { path: ^/admin/, roles: ROLE_ADMIN }
         #- { path: ^/profile, roles: ROLE_USER }

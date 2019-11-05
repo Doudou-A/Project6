@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    <h1>Inscription</h1>
+
+    {{ form_start(formEmail) }}
+        {{ form_row(formEmail.email, { 'label': 'Votre adresse email', 'attr' : {'placeholder': 'Email ...'}}) }}
+    <button type="submit" class="btn btn-success">Inscription ! </button>
+    {{ form_end(formEmail)}}
+
+{% endblock %}

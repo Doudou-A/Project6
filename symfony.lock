@@ -1,6 +1,30 @@
 {
+    "egulias/email-validator": {
+        "version": "2.1.11"
+    },
+    "friendsofsymfony/jsrouting-bundle": {
+        "version": "2.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.3",
+            "ref": "a9f2e49180f75cdc71ae279a929c4b2e0638de84"
+        },
+        "files": [
+            "config/routes/fos_js_routing.yaml"
+        ]
+    },
+    "friendsofsymfony/user-bundle": {
+        "version": "v2.1.2"
+    },
     "monolog/monolog": {
         "version": "1.25.1"
+    },
+    "paragonie/random_compat": {
+        "version": "v2.0.18"
+    },
+    "swiftmailer/swiftmailer": {
+        "version": "v6.2.1"
     },
     "symfony/flex": {
         "version": "1.0",
@@ -13,6 +37,12 @@
         "files": [
             ".env"
         ]
+    },
+    "symfony/form": {
+        "version": "v4.3.5"
+    },
+    "symfony/intl": {
+        "version": "v4.3.5"
     },
     "symfony/monolog-bridge": {
         "version": "v4.3.5"
@@ -31,6 +61,15 @@
             "config/packages/test/monolog.yaml"
         ]
     },
+    "symfony/options-resolver": {
+        "version": "v4.3.5"
+    },
+    "symfony/polyfill-iconv": {
+        "version": "v1.12.0"
+    },
+    "symfony/polyfill-intl-icu": {
+        "version": "v1.12.0"
+    },
     "symfony/security-bundle": {
         "version": "3.3",
         "recipe": {
@@ -42,5 +81,28 @@
         "files": [
             "config/packages/security.yaml"
         ]
+    },
+    "symfony/serializer": {
+        "version": "v4.3.5"
+    },
+    "symfony/swiftmailer-bundle": {
+        "version": "2.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.5",
+            "ref": "429afc6c6778a1fdddb52a4f708cd94ff2c9960f"
+        },
+        "files": [
+            "config/packages/dev/swiftmailer.yaml",
+            "config/packages/swiftmailer.yaml",
+            "config/packages/test/swiftmailer.yaml"
+        ]
+    },
+    "symfony/templating": {
+        "version": "v4.3.5"
+    },
+    "willdurand/jsonp-callback-validator": {
+        "version": "v1.1.0"
     }
 }

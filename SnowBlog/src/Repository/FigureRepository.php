@@ -18,7 +18,7 @@ class FigureRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Figure::class);
     }
-
+    
     // /**
     //  * @return Figure[] Returns an array of Figure objects
     //  */

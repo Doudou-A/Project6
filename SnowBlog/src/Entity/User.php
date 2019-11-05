@@ -17,7 +17,7 @@ use AppBundle\Form\DataTransformer\StringToArrayTransformer;
  * message= "L'email que vous avez indiqué est déja utilisé !"
  * )
  */
-class User implements UserInterface  
+class User implements UserInterface 
 {
     /**
      * @ORM\Id()
@@ -64,14 +64,31 @@ class User implements UserInterface
     private $figures;
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="json")
      */
     private $roles = [];
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $token;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $confirm;
+
+
     public function getRoles()
     {
-        return [$this->roles];
+        /* if(empty($this->roles)){
+            return ['ROLE_USER'];
+        }
+
+        return [$this->roles]; */
+
         return ['ROLE_USER'];
+        
     }
 
     function addRoles($roles) {
@@ -212,5 +229,29 @@ class User implements UserInterface
       $this->roles = (array('roles' =>$roles));
        
       return $this;
+    }
+
+    public function getConfirm(): ?bool
+    {
+        return $this->confirm;
+    }
+
+    public function setConfirm(bool $confirm): self
+    {
+        $this->confirm = $confirm;
+
+        return $this;
+    }
+
+    public function getToken(): ?int
+    {
+        return $this->token;
+    }
+
+    public function setToken(int $token): self
+    {
+        $this->token = $token;
+
+        return $this;
     }
 }
