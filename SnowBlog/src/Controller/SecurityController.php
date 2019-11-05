@@ -107,13 +107,13 @@ class SecurityController extends AbstractController
 
         $form = $this->createFormBuilder()
             ->add('password', PasswordType::class)
-            ->add('confirmPassword', PasswordType::class)
+            ->add('passwordConfirm', PasswordType::class)
             ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($form["password"]->getData() == $form["confirmPassword"]->getData()) {
+            if ($form["password"]->getData() == $form["passwordConfirm"]->getData()) {
                 $hash = $encoder->encodePassword($user, $form["password"]->getData());
                 $user->setPassword($hash);
                 $user->setToken(rand());
