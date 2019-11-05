@@ -21,9 +21,6 @@ security:
             security: false
         main:
             anonymous: true
-
-            user_checker: App\Entity\UserChecker
-
             provider: our_db_provider
 
             form_login:
