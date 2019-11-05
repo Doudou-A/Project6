@@ -15,7 +15,7 @@
         {{ form_row(formFigure.name, {'attr' : {'placeholder' : "Nom de la Figure"}}) }}
         {{ form_row(formFigure.content, {'attr' : {'placeholder' : "Contenu de la Figure"}}) }}
         {{ form_row(formFigure.summary, {'attr' : {'placeholder' : "Résumé de la Figure"}}) }}
-        {{ form_row(formFigure.image, {'attr' : {'placeholder' : "Url de l'image" }}) }}
+        {{ form_row(formFigure.image)}}
     <button type="submit" class="btn btn-success">
         {% if editMode %}
             Enregistrer les modifications
@@ -26,4 +26,13 @@
 
     {{ form_end(formFigure) }}
 
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+<script>
+    $(document).ready(function () {
+        bsCustomFileInput.init()
+    })
+</script>
 {% endblock %}
