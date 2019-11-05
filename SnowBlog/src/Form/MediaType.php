@@ -16,7 +16,7 @@ class MediaType extends AbstractType
         /* $builder
             ->add('file')
         ; */
-        $builder->add('file', FileType::class)
+        $builder->add('file')
                 ->add('type', ChoiceType::class, [
                     'choices'  => [
                     'Image' => 'image',
