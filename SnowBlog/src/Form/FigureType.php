@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\Figure;
 use App\Form\MediaType;
-use App\Form\MediaVideoType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Forum;
 use App\Entity\Media;
-use App\Entity\MediaVideo;
 use App\Entity\Figure;
 use App\Form\ForumType;
 use App\Form\MediaType;
@@ -168,7 +167,7 @@ class BlogController extends AbstractController
      *  @Route("/blog/new", name="blog_create")
      *  @Route("/blog/{id}/edit", name="blog_edit")
      */
-    public function formFigure(Figure $figure = null, Media $media = null, Request $request, ObjectManager $manager, MediaVideo $mediaVideo = null)
+    public function formFigure(Figure $figure = null, Media $media = null, Request $request, ObjectManager $manager)
     {
         if (!$figure) {
             $figure = new Figure();
