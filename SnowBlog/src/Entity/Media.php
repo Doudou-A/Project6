@@ -25,12 +25,7 @@ class Media
      * @ORM\ManyToOne(targetEntity="App\Entity\Figure", inversedBy="medias")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $figure;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $type;
+    private $figure;    
 
     public function getId(): ?int
     {
@@ -49,6 +44,12 @@ class Media
         return $this;
     }
 
+    public function addFile($file)
+    {
+        $this->file[] = $file;
+        return $this;
+    }
+
     public function getFigure(): ?Figure
     {
         return $this->figure;
@@ -60,16 +61,5 @@ class Media
 
         return $this;
     }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
+    
 }

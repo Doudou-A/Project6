@@ -50,7 +50,7 @@ class BlogController extends AbstractController
             $manager->remove($figure);
         } elseif ($entity == 'forum') {
             $forum = $repoForum->find($id);
-            $manager->remove($forum);                                                        
+            $manager->remove($forum);
         } elseif ($entity == 'media') {
             $media = $repoMedia->find($id);
             $mediaRoute = $repoMedia->find($id);
@@ -126,7 +126,8 @@ class BlogController extends AbstractController
      */
     public function viewAction(Request $request, $id, FigureRepository $repo)
     {
-        echo'ok';exit;
+        echo 'ok';
+        exit;
         //if ($request->isXmlHttpRequest()) {
         $figures = $repo->findOther($id);
 
@@ -159,20 +160,25 @@ class BlogController extends AbstractController
         return $this->render('blog/formMedia.html.twig', [
             'formMedia' => $form->createView()
         ]);
-
     }
 
     /**
      *  @Route("/blog/new", name="blog_create")
      *  @Route("/blog/{id}/edit", name="blog_edit")
      */
-    public function formFigure(Figure $figure = null, Request $request, ObjectManager $manager)
+    public function formFigure(Figure $figure = null, Media $media = null, Request $request, ObjectManager $manager)
     {
         if (!$figure) {
             $figure = new Figure();
         }
-
         $user = $this->getUser();
+
+        if (!$media) {
+            $media = new Media();
+        }
+        $media->setFile('name1');
+
+        $figure->getMedias()->add($media);
 
         $form = $this->createForm(FigureType::class, $figure);
 
@@ -186,16 +192,36 @@ class BlogController extends AbstractController
             }
             $figure->setUser($user);
             $imageFile = $form['image']->getData();
-            $newFileName = $this->generateUniqueFileName().'.'.$imageFile->guessExtension();
+            $mediaImages = $form['medias']->getData();
+            if ($imageFile) {
+                $newFileName = $this->generateUniqueFileName() . '.' . $imageFile->guessExtension();
 
-            try {
-                $imageFile->move(
-                    $this->getParameter('figuresImg_directory'),
-                    $newFileName 
-                );
-            } catch (FileException $e) {
-                // ... handle exception if something happens during file upload
-            }
+                try {
+                    $imageFile->move(
+                        $this->getParameter('figuresImg_directory'),
+                        $newFileName
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                } 
+                $figure->setImage($newFileName);
+            } 
+            foreach ($mediaImages as $mediaImage) {
+
+            
+            $media->setFigure($figure);
+            $manager->persist($mediaImage);
+                /* $newFileName = $this->generateUniqueFileName() . '.' . $imageFile->guessExtension();
+
+                try {
+                    $imageFile->move(
+                        $this->getParameter('figuresImg_directory'),
+                        $newFileName
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                } */
+            } 
 
             $manager->persist($user);
             $manager->persist($figure);
