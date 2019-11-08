@@ -23,9 +23,14 @@ class Media
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Figure", inversedBy="medias")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
-    private $figure;    
+    private $figure;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $type;
 
     public function getId(): ?int
     {
@@ -61,5 +66,16 @@ class Media
 
         return $this;
     }
-    
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
 }

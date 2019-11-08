@@ -64,7 +64,7 @@ class Figure
     private $forums;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="figure", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="figure", orphanRemoval=true,  cascade={"remove"})
      */
     private $medias;
 
@@ -72,6 +72,8 @@ class Figure
     {
         $this->forums = new ArrayCollection();
         $this->medias = new ArrayCollection();
+        $this->mediavideos = new ArrayCollection();
+        $this->mediaimages = new ArrayCollection();
     }
 
     public function getId(): ?int

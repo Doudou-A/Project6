@@ -4,10 +4,12 @@ namespace App\Form;
 
 use App\Entity\Figure;
 use App\Form\MediaType;
+use App\Form\MediaVideoType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class FigureType extends AbstractType
@@ -19,9 +21,13 @@ class FigureType extends AbstractType
             ->add('summary')
             ->add('content')
             ->add('image', FileType::class, [
-
-                'attr' => [
-                    'accept' => 'image/*',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypesMessage' => 'Please upload a valid IMG file',
+                    ])
                 ]
             ])
             ->add('medias', CollectionType::class, [

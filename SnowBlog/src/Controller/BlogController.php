@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Forum;
 use App\Entity\Media;
+use App\Entity\MediaVideo;
 use App\Entity\Figure;
 use App\Form\ForumType;
 use App\Form\MediaType;
@@ -15,6 +16,7 @@ use App\Repository\MediaRepository;
 use App\Repository\FigureRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -166,7 +168,7 @@ class BlogController extends AbstractController
      *  @Route("/blog/new", name="blog_create")
      *  @Route("/blog/{id}/edit", name="blog_edit")
      */
-    public function formFigure(Figure $figure = null, Media $media = null, Request $request, ObjectManager $manager)
+    public function formFigure(Figure $figure = null, Media $media = null, Request $request, ObjectManager $manager, MediaVideo $mediaVideo = null)
     {
         if (!$figure) {
             $figure = new Figure();
@@ -176,9 +178,12 @@ class BlogController extends AbstractController
         if (!$media) {
             $media = new Media();
         }
-        $media->setFile('name1');
 
-        $figure->getMedias()->add($media);
+        $originalMedias = new ArrayCollection();
+
+        foreach ($figure->getMedias() as $media) {
+            $originalMedias->add($media);
+        }
 
         $form = $this->createForm(FigureType::class, $figure);
 
@@ -193,6 +198,7 @@ class BlogController extends AbstractController
             $figure->setUser($user);
             $imageFile = $form['image']->getData();
             $mediaImages = $form['medias']->getData();
+
             if ($imageFile) {
                 $newFileName = $this->generateUniqueFileName() . '.' . $imageFile->guessExtension();
 
@@ -203,25 +209,14 @@ class BlogController extends AbstractController
                     );
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
-                } 
+                }
                 $figure->setImage($newFileName);
-            } 
-            foreach ($mediaImages as $mediaImage) {
-
+            }
             
-            $media->setFigure($figure);
-            $manager->persist($mediaImage);
-                /* $newFileName = $this->generateUniqueFileName() . '.' . $imageFile->guessExtension();
-
-                try {
-                    $imageFile->move(
-                        $this->getParameter('figuresImg_directory'),
-                        $newFileName
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                } */
-            } 
+            foreach ($mediaImages as $mediaImage) {
+                $media->setFigure($figure);
+                $manager->persist($mediaImage);
+            }
 
             $manager->persist($user);
             $manager->persist($figure);

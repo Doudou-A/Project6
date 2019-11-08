@@ -55,6 +55,10 @@
             // add the "add a media" anchor and li to the medias ul
             $collectionHolder.append($newLinkLi);
 
+            // add a delete link to all of the existing media form li elements
+            $collectionHolder.find('li').each(function () {
+                addMediaFormDeleteLink($(this));
+            });
             // count the current form inputs we have (e.g. 2), use that as the new
             // index when inserting a new item (e.g. 2)
             $collectionHolder.data('index', $collectionHolder.find(':input').length);
