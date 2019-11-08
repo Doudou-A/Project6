@@ -10,7 +10,7 @@
         </div>
         <div>
             <div class="content">
-                <img src="{{ figure.image }}" alt="TrickSnow" height="50%" width="auto">
+                <img src="{{ asset('uploads/home/' ~ figure.image) }}" alt="TrickSnow" height="50%" width="auto">
                 {{ figure.content }}
             </div>
             <div class="d-flex overflow-auto justify-content-start">
@@ -18,96 +18,90 @@
                     <article class="mt-nav row col-lg-2 h-25 m-3" id="{{media.id}}">
                         {% if media.type == 'image' %}
                             <img src="{{ media.file }}" alt="" width="100%" height="150px" class="mt-3 border border-primary">
-                            <div class="border border-primary row w-100 justify-content-between ml-0">
-                                {% if app.user %}
-                                    <a href="{{ path('delete', {'entity': 'media', 'id': media.id}) }}" onclick="return confirm('Etes-vous sur de vouloir supprimer cette figure ?')">
-                                        &#128465;</a>
-                                {% endif %}
-                            </div>
                         {% else %}
-                            <video src="{{ media.file }}" alt="" width="100%" height="150px" class="mt-3 border border-primary"></video>
-                            <div class="border border-primary row w-100 justify-content-between ml-0">
-                                {% if app.user %}
-                                    <a href="{{ path('delete', {'entity': 'media', 'id': media.id}) }}" onclick="return confirm('Etes-vous sur de vouloir supprimer cette figure ?')">
-                                        &#128465;</a>
-                                {% endif %}
-                            </div>
+                            <iframe src="{{ media.file }}" alt="" width="100%" height="150px" class="mt-3 border border-primary"></iframe>
                         {% endif %}
-                        </article>
-                    {% endfor %}
-                    <a href="{{ path('medias', {'id': figure.id}) }}">
-                        Gérer les médias
-                    </a>
-                </div>
-                <div class="row justify-content-lg-center">
-                    {% if figure.dateLastUpdate is empty %}
-                        <div class="metadata border border-primary">Ecrit le
-                            {{ figure.dateCreated | date('d/m/Y')}}
-                            à
-                            {{ figure.dateCreated | date('H:i')}}
+                        <div class="border border-primary row w-100 justify-content-between ml-0">
+                            {% if app.user %}
+                                <a href="{{ path('delete', {'entity': 'media', 'id': media.id}) }}" onclick="return confirm('Etes-vous sur de vouloir supprimer cette figure ?')">
+                                    &#128465;</a>
+                            {% endif %}
                         </div>
-                    {% endif %}
-                    <div class="metadata border border-primary">Dernière modification le
-                        {{ figure.dateLastUpdate | date('d/m/Y')}}
+                    </article>
+                {% endfor %}
+                <a href="{{ path('medias', {'id': figure.id}) }}">
+                    Gérer les médias
+                </a>
+            </div>
+            <div class="row justify-content-lg-center">
+                {% if figure.dateLastUpdate is empty %}
+                    <div class="metadata border border-primary">Ecrit le
+                        {{ figure.dateCreated | date('d/m/Y')}}
                         à
-                        {{ figure.dateLastUpdate | date('H:i')}}
+                        {{ figure.dateCreated | date('H:i')}}
                     </div>
-                    <div class="text-success border border-primary">
-                        Auteur :
-                        {{ figure.user.username }}
-                    </div>
-                    <div class="text-success border border-primary">
-                        Catégory :
-                    </div>
+                {% endif %}
+                <div class="metadata border border-primary">Dernière modification le
+                    {{ figure.dateLastUpdate | date('d/m/Y')}}
+                    à
+                    {{ figure.dateLastUpdate | date('H:i')}}
+                </div>
+                <div class="text-success border border-primary">
+                    Auteur :
+                    {{ figure.user.username }}
+                </div>
+                <div class="text-success border border-primary">
+                    Catégory :
                 </div>
             </div>
+        </div>
 
-            <section id="commentaires">
-                {% if figure.forums|length == 0 %}
-                    <h2>
-                        Soyez le premier à discuter de cette figure :
-                    </h2>
-                {% elseif figure.forums|length == 1 %}
-                    <h2>{{ figure.forums | length }}
-                        Réponse :
-                    </h2>
-                {% else %}
-                    <h2>{{ figure.forums | length }}
-                        Réponses :
-                    </h2>
-                {% endif %}
-                {% for forum in figure.forums %}
-                    <div class="comment">
-                        <div class="row">
-                            <div class="col-3">
-                                {{ forum.user.username }}
-                                (<small>{{ forum.dateCreated | date('d/m/Y')}}</small>)
-                                <div class="col">
-                                    {{ forum.content | raw }}</div>
-                            </div>
+        <section id="commentaires">
+            {% if figure.forums|length == 0 %}
+                <h2>
+                    Soyez le premier à discuter de cette figure :
+                </h2>
+            {% elseif figure.forums|length == 1 %}
+                <h2>{{ figure.forums | length }}
+                    Réponse :
+                </h2>
+            {% else %}
+                <h2>{{ figure.forums | length }}
+                    Réponses :
+                </h2>
+            {% endif %}
+            {% for forum in figure.forums %}
+                <div class="comment">
+                    <div class="row">
+                        <div class="col-3">
+                            {{ forum.user.username }}
+                            (<small>{{ forum.dateCreated | date('d/m/Y')}}</small>)
+                            <div class="col">
+                                {{ forum.content | raw }}</div>
                         </div>
                     </div>
-                {% endfor %}
+                </div>
+            {% endfor %}
 
-                {% if app.user %}
-                    {{ form_start(formForum) }}
-                    <div class="border border-primrary">
-                        {{ app.user.username }}
-                    </div>
-                    {{ form_row(formForum.content) }}
-                    <button type="submit" class="btn btn-success">
-                        Répondre !
-                    </button>
-                    {{ form_end(formForum) }}
+            {% if app.user %}
+                {{ form_start(formForum) }}
+                <div class="border border-primrary">
+                    {{ app.user.username }}
+                </div>
+                {{ form_row(formForum.content) }}
+                <button type="submit" class="btn btn-success">
+                    Répondre !
+                </button>
+                {{ form_end(formForum) }}
 
-                {% else %}
-                    <h2>
-                        Vous ne pouvez pas Répondre si vous n'êtes pas connecté !</h2>
-                    <a href="{{path('security_login')}}" class="btn btn-primary">
-                        Connexion
-                    </a>
-                {% endif %}
+            {% else %}
+                <h2>
+                    Vous ne pouvez pas Répondre si vous n'êtes pas connecté !</h2>
+                <a href="{{path('security_login')}}" class="btn btn-primary">
+                    Connexion
+                </a>
+            {% endif %}
 
-            </section>
-        </div>
-    {% endblock %}
+        </section>
+    </div>
+{% endblock %}

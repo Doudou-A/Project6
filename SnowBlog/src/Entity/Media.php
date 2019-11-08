@@ -23,12 +23,12 @@ class Media
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Figure", inversedBy="medias")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $figure;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string")
      */
     private $type;
 
@@ -46,6 +46,12 @@ class Media
     {
         $this->file = $file;
 
+        return $this;
+    }
+
+    public function addFile($file)
+    {
+        $this->file[] = $file;
         return $this;
     }
 

@@ -3,9 +3,14 @@
 namespace App\Form;
 
 use App\Entity\Figure;
+use App\Form\MediaType;
+use App\Form\MediaVideoType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class FigureType extends AbstractType
 {
@@ -15,8 +20,22 @@ class FigureType extends AbstractType
             ->add('name')
             ->add('summary')
             ->add('content')
-            ->add('image')
-        ;
+            ->add('image', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypesMessage' => 'Please upload a valid IMG file',
+                    ])
+                ]
+            ])
+            ->add('medias', CollectionType::class, [
+                'entry_type' => MediaType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
