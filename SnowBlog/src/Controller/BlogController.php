@@ -5,8 +5,9 @@ namespace App\Controller;
 use App\Entity\Forum;
 use App\Entity\Media;
 use App\Entity\Figure;
+use App\Entity\Category;
 use App\Form\ForumType;
-use App\Form\MediaType;
+use App\Form\CategoryType;
 use App\Form\FigureType;
 use PhpParser\Node\Stmt\Else_;
 use App\Repository\UserRepository;
@@ -139,27 +140,36 @@ class BlogController extends AbstractController
         // }
     }
 
-    /**
-     * @Route("/blog/media/{id}", name="medias")
+     /**
+     * @Route("/blog/category", name="category")
+     * @Route("/blog/category/{id}/edit", name="category_edit")
      */
-    public function formMedia(Figure $figure, Request $request, ObjectManager $manager)
+    public function category(Category $category = null, Request $request, ObjectManager $manager)
     {
-        $media = new Media();
-
-        $form = $this->createForm(MediaType::class, $media);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $media->setFigure($figure);
-            $manager->persist($media);
-            $manager->flush();
-
-            return $this->redirectToRoute('blog_show', ['id' => $figure->getid()]);
+        if (!$category){
+            $category = new Category();
         }
 
-        return $this->render('blog/formMedia.html.twig', [
-            'formMedia' => $form->createView()
+        $form = $this->createForm(CategoryType::class, $category);
+
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $figuresCategory = $form['figures']->getData();
+            foreach ( $figuresCategory as $figureCategory )
+            {
+                $figureCategory->setCategory($category);
+                $manager->persist($figureCategory);
+            }
+
+            $manager->persist($category);
+            $manager->flush();
+
+            return $this->redirectToRoute('blog');
+        }
+
+        return $this->render('blog/category.html.twig', [
+            'formCategory' => $form->createView(),
         ]);
     }
 
