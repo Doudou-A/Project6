@@ -68,6 +68,12 @@ class Figure
      */
     private $medias;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="figures")
+     * @ORM\JoinColumn(onDelete="SET NULL")
+     */
+    private $category;
+
     public function __construct()
     {
         $this->forums = new ArrayCollection();
@@ -223,6 +229,18 @@ class Figure
                 $media->setFigure(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
