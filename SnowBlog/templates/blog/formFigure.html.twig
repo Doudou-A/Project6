@@ -15,7 +15,6 @@
     {{ form_row(formFigure.name, {'attr' : {'placeholder' : "Nom de la Figure"}}) }}
     {{ form_row(formFigure.category, {'attr' : {'placeholder' : "Choisir une catégorie"}}) }}
     {{ form_row(formFigure.content, {'attr' : {'placeholder' : "Contenu de la Figure"}}) }}
-    {{ form_row(formFigure.summary, {'attr' : {'placeholder' : "Résumé de la Figure"}}) }}
     {{ form_row(formFigure.image, {'attr' : {'placeholder' : "Choisir un fichier"}}) }}
     <ul
         class="medias" data-prototype="{{ form_widget(formFigure.medias.vars.prototype)|e('html_attr') }}">
