@@ -114,7 +114,7 @@ class BlogController extends AbstractController
      * @Route("/", name="blog")
      */
     public function index(FigureRepository $repo)
-    {
+    { 
         $figures = $repo->findBy(array(), array('id' => 'DESC'), 5);
 
         return $this->render('index.html.twig', [

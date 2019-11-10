@@ -28,7 +28,7 @@
         <a href="{{path('formEmailForgot')}}" class="btn">Oubliez le mot de passe</a>
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <p>Connecté : Username:
-                {{ app.user.pseudo }}</p>
+                {{ app.user.username }}</p>
         {% else %}
             déconnecté
         {% endif %}

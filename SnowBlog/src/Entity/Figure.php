@@ -26,12 +26,6 @@ class Figure
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=10, max=255)
-     */
-    private $summary;
-
-    /**
      * @ORM\Column(type="text")
      * @Assert\Length(min=10)
      */
@@ -95,18 +89,6 @@ class Figure
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getSummary(): ?string
-    {
-        return $this->summary;
-    }
-
-    public function setSummary(string $summary): self
-    {
-        $this->summary = $summary;
 
         return $this;
     }
