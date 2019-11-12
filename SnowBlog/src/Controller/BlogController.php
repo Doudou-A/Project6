@@ -14,6 +14,7 @@ use App\Repository\UserRepository;
 use App\Repository\ForumRepository;
 use App\Repository\MediaRepository;
 use App\Repository\FigureRepository;
+use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -22,27 +23,34 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BlogController extends AbstractController
 {
-
-    /** 
-     * @Route("/admin/dashboard", name="dashboard") 
+    /**
+     * @Route("/category/all", name="categoryAllView")
      */
-    public function dashboard(UserRepository $repoUser, FigureRepository $repoFigure, ForumRepository $repoForum)
-    {
-        $figures = $repoFigure->findAll();
-        $forums = $repoForum->findBy(array(), array('figure' => 'ASC'));
-        $users = $repoUser->findBy(array(), array('email' => 'ASC'));
+    public function categoryAllView(CategoryRepository $repo)
+    { 
+        $category = $repo->findAll();
 
-        return $this->render('admin/dashboard.html.twig', [
-            'figures' => $figures,
-            'forums' => $forums,
-            'users' => $users
+        return $this->render('blog/category.html.twig', [
+            'categorys' => $category
+        ]);
+    }
+
+    /**
+     * @Route("/category/{id}/show", name="category_show")
+     */
+    public function categoryShow($id, FigureRepository $repo)
+    { 
+        $figures = $repo->findByCategory($id);
+
+        return $this->render('blog/categoryShow.html.twig', [
+            'figures' => $figures
         ]);
     }
 
     /**
      * @Route("/admin/supprime/{entity}/{id}", name="delete")
      */
-    public function delete($entity, $id, ForumRepository $repoForum, FigureRepository $repoFigure, UserRepository $repoUser, MediaRepository $repoMedia, ObjectManager $manager)
+    public function delete($entity, $id, ForumRepository $repoForum, FigureRepository $repoFigure, UserRepository $repoUser, MediaRepository $repoMedia, CategoryRepository $repoCategory, ObjectManager $manager)
     {
         if ($entity == 'user') {
             $user = $repoUser->find($id);
@@ -53,6 +61,9 @@ class BlogController extends AbstractController
         } elseif ($entity == 'forum') {
             $forum = $repoForum->find($id);
             $manager->remove($forum);
+        } elseif ($entity == 'category') {
+            $category = $repoCategory->find($id);
+            $manager->remove($category);
         } elseif ($entity == 'media') {
             $media = $repoMedia->find($id);
             $mediaRoute = $repoMedia->find($id);
@@ -64,50 +75,9 @@ class BlogController extends AbstractController
             return $this->redirectToRoute('blog_');
         } elseif ($entity == 'media') {
             return $this->redirectToRoute('blog_show', ['id' => $mediaRoute->getFigure()->getId()]);
+        } elseif ($entity == 'category') {
+            return $this->redirectToRoute('categoryAllView');
         }
-    }
-
-    /** 
-     * @Route("/admin/profil", name="profil") 
-     */
-    public function profil(UserRepository $repoUser, ForumRepository $repoForum, FigureRepository $repoFigure)
-    {
-        $id = $this->getUser()->getId();
-        $user = $this->getUser();
-        $figure = $repoFigure->findByUser($id);
-        $forum = $repoForum->findByUser($id);
-
-        return $this->render('admin/profil.html.twig', [
-            'user' => $user,
-            'figure' => $figure,
-            'forum' => $forum
-        ]);
-    }
-
-    /**
-     * @Route("/admin/profil/forum", name="profilForum")
-     */
-    public function profilForum(ForumRepository $repo)
-    {
-        $id = $this->getUser()->getId();
-        $forums = $repo->findByUser($id);
-
-        return $this->render('admin/profil/forum.html.twig', [
-            'forums' => $forums
-        ]);
-    }
-
-    /**
-     * @Route("/admin/profil/figure", name="profilFigure")
-     */
-    public function profilFigure(FigureRepository $repo)
-    {
-        $id = $this->getUser()->getId();
-        $figures = $repo->findByUser($id);
-
-        return $this->render('admin/profil/figure.html.twig', [
-            'figures' => $figures
-        ]);
     }
 
     /**
@@ -141,10 +111,10 @@ class BlogController extends AbstractController
     }
 
      /**
-     * @Route("/blog/category", name="category")
+     * @Route("/blog/category/new", name="category_new")
      * @Route("/blog/category/{id}/edit", name="category_edit")
      */
-    public function category(Category $category = null, Request $request, ObjectManager $manager)
+    public function formCategory(Category $category = null, Request $request, ObjectManager $manager)
     {
         if (!$category){
             $category = new Category();
@@ -168,7 +138,7 @@ class BlogController extends AbstractController
             return $this->redirectToRoute('blog');
         }
 
-        return $this->render('blog/category.html.twig', [
+        return $this->render('blog/formCategory.html.twig', [
             'formCategory' => $form->createView(),
         ]);
     }
