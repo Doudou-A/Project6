@@ -23,3 +23,15 @@
   background-position: center;
   background-repeat: no-repeat;
 }
+
+@font-face {
+  font-family: "Marker-Felt";
+  src: url('Marker-Felt.ttf') format('truetype');
+  font-weight: normal;
+  font-style: lighter;
+}
+
+.font-MF{
+  font-family: "Marker-Felt";
+  letter-spacing: 0.1rem;
+}
