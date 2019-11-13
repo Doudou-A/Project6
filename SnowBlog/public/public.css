@@ -24,6 +24,14 @@
   background-repeat: no-repeat;
 }
 
+.masthead_show {
+  height: 100vh;
+  background-image: url('images.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 @font-face {
   font-family: "Marker-Felt";
   src: url('Marker-Felt.ttf') format('truetype');

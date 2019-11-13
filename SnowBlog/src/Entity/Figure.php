@@ -21,7 +21,7 @@ class Figure
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=5, max=255, minMessage="Le champ doit contenir minimum 5 caractères")
+     * @Assert\Length(min=3, max=15, minMessage="Le champ doit contenir entre 3 et 15 caractères ")
      */
     private $name;
 

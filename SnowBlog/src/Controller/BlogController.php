@@ -72,7 +72,7 @@ class BlogController extends AbstractController
         $manager->flush();
 
         if ($entity == 'figure') {
-            return $this->redirectToRoute('blog_');
+            return $this->redirectToRoute('blog');
         } elseif ($entity == 'media') {
             return $this->redirectToRoute('blog_show', ['id' => $mediaRoute->getFigure()->getId()]);
         } elseif ($entity == 'category') {
