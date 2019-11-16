@@ -2,7 +2,7 @@
 
 {% block body %}
 	<div class="row justify-content-around">
-		<div class="row col-md-3 mt-2 border border-success justify-content-between p-2 ml-0 mr-2">
+		<div class="row col-md-3 mt-2 bg-white justify-content-between p-2 ml-0 mr-2 shadow">
 			<a href="{{path('category_new')}}" class="text-success">Créer une nouvelle catégorie</a>
 			<a href="{{path('category_new')}}" class="h5 text-success">
 				&#43;
@@ -10,7 +10,7 @@
 		</div>
 		{% for category in categorys %}
 			<article class="col-md-3 row mt-2 m-0 p-0 mr-2" id="{{category.id}}">
-				<div class="border border-primary row w-100 justify-content-between ml-0 p-2">
+				<div class="bg-white row w-100 justify-content-between ml-0 p-2 shadow">
 					<div>
 						<a href="{{ path('category_show', {'id': category.id}) }}">{{ category.name }}</a>
 					</div>
