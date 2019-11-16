@@ -28,7 +28,7 @@ class BlogController extends AbstractController
      */
     public function categoryAllView(CategoryRepository $repo)
     { 
-        $category = $repo->findAll();
+        $category = $repo->findBy(array(), array('name' => 'ASC'));;
 
         return $this->render('blog/category.html.twig', [
             'categorys' => $category
@@ -135,7 +135,7 @@ class BlogController extends AbstractController
             $manager->persist($category);
             $manager->flush();
 
-            return $this->redirectToRoute('blog');
+            return $this->redirectToRoute('categoryAllView');
         }
 
         return $this->render('blog/formCategory.html.twig', [
