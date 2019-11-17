@@ -114,11 +114,13 @@ class BlogController extends AbstractController
      * @Route("/blog/category/new", name="category_new")
      * @Route("/blog/category/{id}/edit", name="category_edit")
      */
-    public function formCategory(Category $category = null, Request $request, ObjectManager $manager)
+    public function formCategory(Category $category = null, Request $request, ObjectManager $manager, FigureRepository $repo)
     {
         if (!$category){
             $category = new Category();
         }
+
+        $figures = $repo->findByCategory(null);
 
         $form = $this->createForm(CategoryType::class, $category);
 
@@ -140,6 +142,7 @@ class BlogController extends AbstractController
 
         return $this->render('blog/formCategory.html.twig', [
             'formCategory' => $form->createView(),
+            'figures' => $figures
         ]);
     }
 

@@ -8,7 +8,7 @@
             {% endblock %}
         </title>
         <link rel="stylesheet" href="https://bootswatch.com/4/cerulean/bootstrap.min.css"/> 
-        <link rel="stylesheet" href="../public.css"/>
+        <link rel="stylesheet" href="/public.css"/>
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>  {% block stylesheets %}{% endblock %}
     </head>
 
@@ -50,7 +50,7 @@
                 </div>
             {% endif %}
         </nav>
-        <div class="p-0 {# mt-nav #}" style="margin-top: 56px;"> {% block body %}{% endblock %}
+        <div class="p-0 mt-nav"> {% block body %}{% endblock %}
             </div>
             {% block javascripts %}{% endblock %}
     </body>

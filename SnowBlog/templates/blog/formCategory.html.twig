@@ -1,11 +1,21 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-    {{ form_start(formCategory) }}
-    {{ form_row(formCategory.name) }}
-    <button type="submit" class="btn btn-success">
-        Ajouter !
-    </button>
-    {{ form_end(formCategory) }}
-
+	<div class="col-md-9 border p-4 bg-white mx-auto">
+		<h2 class="p-2 text-center font-MF border-bottom border-primary">Ajouter une Catégorie</h2>
+		{{ form_start(formCategory) }}
+		{{ form_row(formCategory.name, {'label' : 'Nom'}) }}
+		<div class="mt-5">
+			{{ form_row(formCategory.figures) }}
+		</div>
+		{% if not figures %}
+			Aucune figure disponible
+		{% endif %}
+		<div class="row justify-content-center">
+			<button type="submit" class="btn btn-success my-3 font-MF">
+				Ajouter !
+			</button>
+		</div>
+		{{ form_end(formCategory) }}
+	</div>
 {% endblock %}

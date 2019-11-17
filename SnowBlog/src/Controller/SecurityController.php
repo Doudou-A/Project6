@@ -117,7 +117,6 @@ class SecurityController extends AbstractController
         ]);
     }
 
-
     /**
      * @Route("/security/VerifyValid", name="verify_valid")
      */
@@ -157,7 +156,9 @@ class SecurityController extends AbstractController
     {
 
         $form = $this->createFormBuilder()
-            ->add('email', EmailType::class)
+            ->add('email', EmailType::class, [
+                'label' => false
+            ])
             ->getForm();
 
         $form->handleRequest($request);
