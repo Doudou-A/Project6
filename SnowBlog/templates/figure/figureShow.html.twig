@@ -1,7 +1,7 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-	<div class="row h-50 col-12 justify-content-center mx-0">
+	<div class="row h-50 overflow-auto col-12 justify-content-center mx-0 ">
 		<h2 class="position-absolute rounded-pill text-center bg-white font-MF p-3" style="margin-top:15%;">{{ figure.name }}</h2>
 		{% if figure.image %}
 			<img src="{{ asset('uploads/home/' ~ figure.image) }}" alt="TrickSnow" class="mx-auto" height="500" width="100%">
@@ -16,7 +16,7 @@
 				&#128465;</a>
 		</div>
 	{% endif %}
-	<div class="row overflow-auto justify-content-start">
+	<div class="row justify-content-start">
 		{% for media in medias %}
 			<article class="row col-md-2 h-25 m-3" id="{{media.id}}">
 				{% if media.type == 'image' %}
