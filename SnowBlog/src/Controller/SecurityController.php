@@ -71,7 +71,7 @@ class SecurityController extends AbstractController
 
             $mailer->send($message);
 
-            return $this->redirectToRoute('blog');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('security/registration.html.twig', [
@@ -137,7 +137,7 @@ class SecurityController extends AbstractController
             $mailer->send($message);
             return $this->redirectToRoute('security_logout');
         }
-        return $this->redirectToRoute('blog');
+        return $this->redirectToRoute('home');
     }
 
 
@@ -176,7 +176,7 @@ class SecurityController extends AbstractController
 
             $mailer->send($message);
 
-            return $this->redirectToRoute('blog');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('security/formMailForgot.html.twig', [
@@ -217,7 +217,7 @@ class SecurityController extends AbstractController
                 ]);
             }
 
-            return $this->redirectToRoute('blog');
+            return $this->redirectToRoute('home');
         }
 
         $error1 = null;

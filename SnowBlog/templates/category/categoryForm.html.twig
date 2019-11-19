@@ -3,10 +3,10 @@
 {% block body %}
 	<div class="col-md-9 border p-4 bg-white mx-auto">
 		<h2 class="p-2 text-center font-MF border-bottom border-primary">Ajouter une Catégorie</h2>
-		{{ form_start(formCategory) }}
-		{{ form_row(formCategory.name, {'label' : 'Nom'}) }}
+		{{ form_start(categoryForm) }}
+		{{ form_row(categoryForm.name, {'label' : 'Nom'}) }}
 		<div class="mt-5">
-			{{ form_row(formCategory.figures) }}
+			{{ form_row(categoryForm.figures) }}
 		</div>
 		{% if not figures %}
 			Aucune figure disponible
@@ -16,6 +16,6 @@
 				Ajouter !
 			</button>
 		</div>
-		{{ form_end(formCategory) }}
+		{{ form_end(categoryForm) }}
 	</div>
 {% endblock %}

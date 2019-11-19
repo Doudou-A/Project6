@@ -11,7 +11,7 @@
 	</div>
 	{% if app.user %}
 		<div class="row position-absolute col-12 justify-content-end" style="top:60px;">
-			<a href="{{ path('blog_edit', {'id': figure.id}) }}" class="bg-white p-2 border">&#128394;</a>
+			<a href="{{ path('figure_edit', {'id': figure.id}) }}" class="bg-white p-2 border">&#128394;</a>
 			<a href="{{ path('delete', {'entity': 'figure', 'id': figure.id}) }}" onclick="return confirm('Etes-vous sur de vouloir supprimer cette figure ?')" class="bg-white p-2 border">
 				&#128465;</a>
 		</div>
@@ -63,16 +63,16 @@
 
 	<section id="commentaires">
 		{% if app.user %}
-			{{ form_start(formForum) }}
+			{{ form_start(formComment) }}
 			<div class="row justify-content-center mt-2">
-				<div class="col-lg-6 p-0 mt-3">{{ form_row(formForum.content) }}</div>
+				<div class="col-lg-6 p-0 mt-3">{{ form_row(formComment.content) }}</div>
 				<div class="col-lg-3 p-0 mt-3">
 					<button type="submit" class="btn btn-success">
 						Laisser un commentaire
 					</button>
 				</div>
 			</div>
-			{{ form_end(formForum) }}
+			{{ form_end(formComment) }}
 		{% else %}
 			<div class="row justify-content-center p-3 border-white border-bottom">
 				<div class="h2 col-12 text-center text-danger">
@@ -83,29 +83,29 @@
 				</a>
 			</div>
 		{% endif %}
-		{% if figure.forums|length == 0 %}
+		{% if figure.comments|length == 0 %}
 			<div class="col-12 text-center text-success h3 p-3">
 				Aucun commentaire sur cette figure
 			</div>
-		{% elseif figure.forums|length == 1 %}
+		{% elseif figure.comments|length == 1 %}
 			<div class="col-12 text-center text-success h3 p-3">
 				Il y a
-				{{ figure.forums | length }}
+				{{ figure.comments | length }}
 				commentaire :
 			</div>
 		{% else %}
 			<div class="col-12 text-center text-success h3 p-3">
 				Il y a
-				{{ figure.forums | length }}
+				{{ figure.comments | length }}
 				commentaires :
 			</div>
 		{% endif %}
 
-		{% for forum in figure.forums %}
+		{% for comment in figure.comments %}
 			<div class="row offset-lg-1">
 				<div class="col-1">
-					{% if forum.user.image %}
-						<img src="{{ asset('uploads/UserImg/' ~ forum.user.image) }}" class="rounded-circle border-success p-3" width="100" height="100">
+					{% if comment.user.image %}
+						<img src="{{ asset('uploads/UserImg/' ~ comment.user.image) }}" class="rounded-circle border-success p-3" width="100" height="100">
 					{% else %}
 						<img src="{{ asset('uploads/UserImg/anonymous.png') }}" class="rounded-circle border-success p-3" width="100" height="100">
 					{% endif %}
@@ -114,17 +114,17 @@
 					<div class="row">
 						<div class="border-right border-success">
 							<div class="col font-MF text-success text-center">
-								{{ forum.user.username }}
+								{{ comment.user.username }}
 							</div>
 							<div class="col text-success">
 								<small>le
-									{{ forum.dateCreated | date('d/m/Y')}}
+									{{ comment.dateCreated | date('d/m/Y')}}
 									à
-									{{ forum.dateCreated | date('H:i')}}</small>
+									{{ comment.dateCreated | date('H:i')}}</small>
 							</div>
 						</div>
 						<div class="col">
-							{{ forum.content | raw }}
+							{{ comment.content | raw }}
 						</div>
 					</div>
 				</div>

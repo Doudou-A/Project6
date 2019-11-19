@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ForumRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
  */
-class Forum
+class Comment
 {
     /**
      * @ORM\Id()
@@ -27,15 +27,14 @@ class Forum
     private $dateCreated;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="figureForums")
-     * @ORM\JoinColumn(onDelete="SET NULL")
-     */
-    private $user;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Figure", inversedBy="figureForums")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Figure", inversedBy="comments")
      */
     private $figure;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments")
+     */
+    private $user;
 
     public function getId(): ?int
     {
@@ -66,6 +65,18 @@ class Forum
         return $this;
     }
 
+    public function getFigure(): ?Figure
+    {
+        return $this->figure;
+    }
+
+    public function setFigure(?Figure $figure): self
+    {
+        $this->figure = $figure;
+
+        return $this;
+    }
+
     public function getUser(): ?User
     {
         return $this->user;
@@ -74,18 +85,6 @@ class Forum
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    public function getFigure(): ?figure
-    {
-        return $this->figure;
-    }
-
-    public function setFigure(?figure $figure): self
-    {
-        $this->figure = $figure;
 
         return $this;
     }
