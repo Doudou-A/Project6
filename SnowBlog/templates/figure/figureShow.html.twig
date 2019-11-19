@@ -64,10 +64,10 @@
 	<section id="commentaires">
 		{% if app.user %}
 			{{ form_start(formComment) }}
-			<div class="row justify-content-center mt-2">
-				<div class="col-lg-6 p-0 mt-3">{{ form_row(formComment.content) }}</div>
-				<div class="col-lg-3 p-0 mt-3">
-					<button type="submit" class="btn btn-success">
+			<div class="row justify-content-center mt-4">
+				<div class="col-lg-6 p-0">{{ form_row(formComment.content) }}</div>
+				<div class="col-lg-3 p-0">
+					<button type="submit" class="btn btn-success col-12">
 						Laisser un commentaire
 					</button>
 				</div>
@@ -103,20 +103,20 @@
 
 		{% for comment in figure.comments %}
 			<div class="row offset-lg-1">
-				<div class="col-1">
+				<div class="col-1 d-none d-lg-block">
 					{% if comment.user.image %}
-						<img src="{{ asset('uploads/UserImg/' ~ comment.user.image) }}" class="rounded-circle border-success p-3" width="100" height="100">
+						<img src="{{ asset('uploads/UserImg/' ~ comment.user.image) }}" class="rounded-circle border-success p-3" width="auto" height="100">
 					{% else %}
-						<img src="{{ asset('uploads/UserImg/anonymous.png') }}" class="rounded-circle border-success p-3" width="100" height="100">
+						<img src="{{ asset('uploads/UserImg/anonymous.png') }}" class="rounded-circle border-success p-3" width="auto" height="100">
 					{% endif %}
 				</div>
-				<div class="col-9 bg-white comment p-3 border border-success mb-3">
+				<div class="d-none d-lg-block col-lg-9 bg-white comment p-3 border border-success mb-3">
 					<div class="row">
-						<div class="border-right border-success">
+						<div class="col-3 border-right border-success">
 							<div class="col font-MF text-success text-center">
 								{{ comment.user.username }}
 							</div>
-							<div class="col text-success">
+							<div class="col text-success text-center">
 								<small>le
 									{{ comment.dateCreated | date('d/m/Y')}}
 									à
@@ -126,6 +126,24 @@
 						<div class="col">
 							{{ comment.content | raw }}
 						</div>
+					</div>
+				</div>
+			</div>
+			<div class="d-md-block d-lg-none col-12 bg-white comment p-3 border border-success mb-3">
+				<div class="row">
+					<div class="col-12 border-bottom border-success">
+						<div class="col font-MF text-success text-center">
+							{{ comment.user.username }}
+						</div>
+						<div class="col text-success text-center">
+							<small>le
+								{{ comment.dateCreated | date('d/m/Y')}}
+								à
+								{{ comment.dateCreated | date('H:i')}}</small>
+						</div>
+					</div>
+					<div class="col">
+						{{ comment.content | raw }}
 					</div>
 				</div>
 			</div>
