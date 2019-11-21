@@ -141,12 +141,13 @@ class FigureController extends AbstractController
      */
     public function index(FigureRepository $repo)
     {
-        phpinfo(); 
         /* $figures = $repo->findBy(array(), array('id' => 'DESC'), 5); */
         $figures = $repo->findAll();
+        $user = $this->getUser();
 
         return $this->render('index.html.twig', [
             'controller_name' => 'FigureController',
+            'user' => $user,
             'figures' => $figures
         ]);
     }

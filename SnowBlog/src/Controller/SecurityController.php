@@ -125,14 +125,14 @@ class SecurityController extends AbstractController
         $user = $this->getUser();
 
         if ($user->getConfirm() == false) {
-            $message = (new \Swift_Message('Mot de passe oublié'))
-                ->setFrom('send@example.com')
-                ->setTo($user->getEmail())
-                ->setBody(
-                    'Voici le lien pour confirmer votre compte : </br>
-            http://localhost:8000/security/forgotPassword/' . $user->getToken() . '',
-                    'text/html'
-                );
+            $message = (new \Swift_Message('Mail de Confirmation'))
+            ->setFrom('send@example.com')
+            ->setTo($user->getEmail())
+            ->setBody(
+                'Voici le lien pour confirmer votre compte : </br>
+        http://localhost:8000/security/confirm/' . $user->getToken() . '',
+                'text/html'
+            );
 
             $mailer->send($message);
             return $this->redirectToRoute('security_logout');

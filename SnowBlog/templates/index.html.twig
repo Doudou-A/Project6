@@ -31,7 +31,7 @@
 							<a href="{{ path('figure_show', {'id': figure.id}) }}" class="font-MF col-10 text-primary">{{ figure.name }}</a>
 						</div>
 						<div>
-							{% if app.user %}
+							{% if app.user and user.email == figure.user.email %}
 								<a href="{{ path('figure_edit', {'id': figure.id}) }}">&#128394;</a>
 								<a href="{{ path('delete', {'entity': 'figure', 'id': figure.id}) }}" onclick="return confirm('Etes-vous sur de vouloir supprimer cette figure ?')">
 									&#128465;</a>
