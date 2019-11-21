@@ -21,7 +21,7 @@
 			class="medias" data-prototype="{{ form_widget(formFigure.medias.vars.prototype)|e('html_attr') }}">
 			{# iterate over each existing media and render its only field: name #}
 			{% for media in formFigure.medias %}
-				<li>{{ form_row(media.file, {'label' : "URL du media"}) }}</li>
+				<li>{{ form_row(media.url, {'label' : "URL du media"}) }}</li>
 				<li>{{ form_row(media.type, {'label' : "Type de media"}) }}</li>
 			{% endfor %}
 		</ul>

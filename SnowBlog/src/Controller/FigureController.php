@@ -10,11 +10,13 @@ use App\Form\CommentType;
 use App\Repository\UserRepository;
 use App\Repository\MediaRepository;
 use App\Repository\FigureRepository;
+use App\Repository\CommentRepository;
 use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FigureController extends AbstractController
@@ -24,7 +26,7 @@ class FigureController extends AbstractController
     /**
      * @Route("/admin/supprime/{entity}/{id}", name="delete")
      */
-    public function delete($entity, $id, FigureRepository $repoFigure, UserRepository $repoUser, MediaRepository $repoMedia, CategoryRepository $repoCategory, ObjectManager $manager)
+    public function delete($entity, $id, FigureRepository $repoFigure, UserRepository $repoUser, MediaRepository $repoMedia, CategoryRepository $repoCategory, CommentRepository $repoComment, ObjectManager $manager)
     {
         if ($entity == 'user') {
             $user = $repoUser->find($id);
@@ -39,6 +41,10 @@ class FigureController extends AbstractController
             $media = $repoMedia->find($id);
             $mediaRoute = $repoMedia->find($id);
             $manager->remove($media);
+        } elseif ($entity == 'comment') {
+            $comment = $repoComment->find($id);
+            $commentRoute = $repoComment->find($id);
+            $manager->remove($comment);
         }
         $manager->flush();
 
@@ -48,6 +54,8 @@ class FigureController extends AbstractController
             return $this->redirectToRoute('figure_show', ['id' => $mediaRoute->getFigure()->getId()]);
         } elseif ($entity == 'category') {
             return $this->redirectToRoute('categoryAllView');
+        } elseif ($entity == 'comment') {
+            return $this->redirectToRoute('figure_show', ['id' => $commentRoute->getFigure()->getId()]);
         }
     }
 
@@ -133,6 +141,7 @@ class FigureController extends AbstractController
      */
     public function index(FigureRepository $repo)
     {
+        phpinfo(); 
         /* $figures = $repo->findBy(array(), array('id' => 'DESC'), 5); */
         $figures = $repo->findAll();
 
@@ -141,24 +150,6 @@ class FigureController extends AbstractController
             'figures' => $figures
         ]);
     }
-
-    /**
-     * @Route("/load/{id}", name="annonce-ajax-next", options = { "expose" = true } )
-     */
-    public function viewAction(Request $request, $id, FigureRepository $repo)
-    {
-        echo 'ok';
-        exit;
-        //if ($request->isXmlHttpRequest()) {
-        $figures = $repo->findOther($id);
-
-        var_dump($figures);
-
-        $response = new JsonResponse();
-        return $response->setData($figures);
-        // }
-    }
-
 
     /**
      *  @Route("/figure/{id}", name="figure_show")

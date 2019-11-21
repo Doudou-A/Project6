@@ -19,7 +19,7 @@ class Media
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $file;
+    private $url;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Figure", inversedBy="medias")
@@ -37,21 +37,21 @@ class Media
         return $this->id;
     }
 
-    public function getFile(): ?string
+    public function getUrl(): ?string
     {
-        return $this->file;
+        return $this->url;
     }
 
-    public function setFile(string $file): self
+    public function setUrl(string $url): self
     {
-        $this->file = $file;
+        $this->url = $url;
 
         return $this;
     }
 
-    public function addFile($file)
+    public function addUrl($url)
     {
-        $this->file[] = $file;
+        $this->url[] = $url;
         return $this;
     }
 

@@ -66,12 +66,7 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user")
      */
     private $comments;
-
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $roles = [];
-
+    
     /**
      * @ORM\Column(type="integer")
      */

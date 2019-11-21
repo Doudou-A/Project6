@@ -47,34 +47,9 @@
 {% block javascripts %}
 	<script type="text/javascript">
 		var arrowDown = document.getElementById('arrowDown');
-var arrowTop = document.getElementById('arrowTop');
+
 arrowDown.onclick = function () {
 arrowDown.style.display = "none";
-arrowTop.style.display = "block";
 }
-arrowTop.onclick = function () {
-arrowTop.style.display = "none";
-arrowDown.style.display = "block";
-}
-	</script>
-	<script>
-		$(function () {
-$(window).scroll(function () {
-var id = $('.item-list').last().attr('id');
-if ($(window).scrollTop() === $(document).height() - $(window).height()) { // $.mockjaxClear();
-$.ajax({
-type: "get",
-url: Routing.generate("annonce-ajax-next", {id}),
-beforeSend: function () {
-$('.loader').show();
-},
-success: function (data) { // alert('ok '+ data["adverts"]);
-if (data) { // je ne sais plus quoi faire ici
-}
-}
-});
-}
-});
-});
 	</script>
 {% endblock %}
