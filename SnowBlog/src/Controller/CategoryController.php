@@ -55,10 +55,13 @@ class CategoryController extends AbstractController
      */
     public function categoryAllView(CategoryRepository $repo)
     { 
-        $category = $repo->findBy(array(), array('name' => 'ASC'));;
+        $category = $repo->findBy(array(), array('name' => 'ASC'));
+
+        $user = $this->getUser();
 
         return $this->render('category/category.html.twig', [
-            'categorys' => $category
+            'categorys' => $category,
+            'user' => $user
         ]);
     }
 

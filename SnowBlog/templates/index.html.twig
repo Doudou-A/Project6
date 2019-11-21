@@ -22,9 +22,9 @@
 			{% for figure in figures %}
 				<article class="mt-nav p-0 row col-md-2 h-25 m-3 shadow" id="{{figure.id}}">
 					{% if figure.image %}
-						<img src="{{ asset('uploads/home/' ~ figure.image) }}" class="h-25" alt="" width="100%">
+						<img src="{{ asset('uploads/home/' ~ figure.image) }}" height="auto" alt="" width="100%">
 					{% else %}
-						<img src="{{ asset('uploads/home/Pardefault.jpg') }}" class="h-25" alt="" width="100%">
+						<img src="{{ asset('uploads/home/Pardefault.jpg') }}" height="auto" alt="" width="100%">
 					{% endif %}
 					<div class="row bg-white w-100 justify-content-between ml-0 border-top">
 						<div>
