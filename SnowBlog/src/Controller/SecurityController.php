@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use DateTime;
+use DateInterval;
 use App\Entity\User;
 use App\Form\RegistrationType;
 use App\Repository\UserRepository;
@@ -65,7 +67,8 @@ class SecurityController extends AbstractController
                 ->setTo($user->getEmail())
                 ->setBody(
                     'Voici le lien pour confirmer votre compte : </br>
-            http://localhost:8000/security/confirm/' . $user->getToken() . '',
+            http://localhost:8000/security/confirm/' . $user->getToken() . ' </br>
+            Vous pouvez utiliser votre compte durant 24h sans confirmer l\'adresse email.',
                     'text/html'
                 );
 
@@ -123,13 +126,16 @@ class SecurityController extends AbstractController
     public function verifyValid(\Swift_Mailer $mailer)
     {
         $user = $this->getUser();
+        $date = $user->getDateCreated();
+        $date->add(new DateInterval('P1D'));
+        $now = new DateTime();
 
-        if ($user->getConfirm() == false) {
+        if ($user->getConfirm() == false && $date < $now) {
             $message = (new \Swift_Message('Mail de Confirmation'))
             ->setFrom('send@example.com')
             ->setTo($user->getEmail())
             ->setBody(
-                'Voici le lien pour confirmer votre compte : </br>
+                'Cela fait 24h que vous n\'avez pas confirmer votre adresse email. Veuillez la confirmer si vous souhaitez vous connecter : </br>
         http://localhost:8000/security/confirm/' . $user->getToken() . '',
                 'text/html'
             );

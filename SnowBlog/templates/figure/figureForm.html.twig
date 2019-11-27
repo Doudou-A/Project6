@@ -3,39 +3,48 @@
 {% form_theme formFigure 'bootstrap_4_layout.html.twig' %} Adelmodif#}
 
 {% block body %}
-	<div class="col-md-9 border p-4 bg-white mx-auto">
-		<h1 class="p-2 text-center font-MF border-bottom border-primary">
-			{% if editMode %}
-				Modifier une Figure
-			{% else %}
-				Ajouter une Figure
-			{% endif %}
-		</h1>
-
-		{{ form_start(formFigure) }}
-		{{ form_row(formFigure.name, {'label' : "Nom de la Figure"}) }}
-		{{ form_row(formFigure.category, {'label' : "Choisir une catégorie"}) }}
-		{{ form_row(formFigure.content, {'label' : "Contenu de la Figure"}) }}
-		{{ form_row(formFigure.image, {'label' : "Choisir une image"}) }}
-		<ul
-			class="medias" data-prototype="{{ form_widget(formFigure.medias.vars.prototype)|e('html_attr') }}">
-			{# iterate over each existing media and render its only field: name #}
-			{% for media in formFigure.medias %}
-				<li>{{ form_row(media.url, {'label' : "URL du media"}) }}</li>
-				<li>{{ form_row(media.type, {'label' : "Type de media"}) }}</li>
-			{% endfor %}
-		</ul>
-		<div class="row justify-content-center">
-			<button type="submit" class="btn btn-success my-3 font-MF">
+	{% if newMode or editMode and user.email == figure.user.email %}
+		<div class="col-md-9 border p-4 bg-white mx-auto">
+			<h1 class="p-2 text-center font-MF border-bottom border-primary">
 				{% if editMode %}
-					Modifier !
+					Modifier une Figure
 				{% else %}
-					Ajouter !
+					Ajouter une Figure
 				{% endif %}
-			</button>
+			</h1>
+
+			{{ form_start(formFigure) }}
+			{{ form_row(formFigure.name, {'label' : "Nom de la Figure"}) }}
+			{{ form_row(formFigure.category, {'label' : "Choisir une catégorie"}) }}
+			{{ form_row(formFigure.content, {'label' : "Contenu de la Figure"}) }}
+			{{ form_row(formFigure.image, {'label' : "Choisir une image"}) }}
+			<ul
+				class="medias" data-prototype="{{ form_widget(formFigure.medias.vars.prototype)|e('html_attr') }}">
+				{# iterate over each existing media and render its only field: name #}
+				{% for media in formFigure.medias %}
+					<li>{{ form_row(media.url, {'label' : "URL du media"}) }}</li>
+					<li>{{ form_row(media.type, {'label' : "Type de media"}) }}</li>
+				{% endfor %}
+			</ul>
+			<div class="row justify-content-center">
+				<button type="submit" class="btn btn-success my-3 font-MF">
+					{% if editMode %}
+						Modifier !
+					{% else %}
+						Ajouter !
+					{% endif %}
+				</button>
+			</div>
+			{{ form_end(formFigure) }}
 		</div>
-		{{ form_end(formFigure) }}
-	</div>
+	{% else %}
+		<div class="col-md-9 border p-4 bg-white mx-auto">
+			<div class="h1 p-2 text-center font-MF border-bottom border-primary">
+				Vous ne pouvez pas modifier cette Figure !
+			</div>
+		</div>
+	{% endif %}
+
 {% endblock %}
 
 {% block javascripts %}

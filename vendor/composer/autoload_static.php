@@ -48,6 +48,7 @@ class ComposerStaticInit50f76ec3598233b640fa4666da00169d
             'Symfony\\Component\\VarExporter\\' => 30,
             'Symfony\\Component\\VarDumper\\' => 28,
             'Symfony\\Component\\Validator\\' => 28,
+            'Symfony\\Component\\Translation\\' => 30,
             'Symfony\\Component\\Templating\\' => 29,
             'Symfony\\Component\\Stopwatch\\' => 28,
             'Symfony\\Component\\Serializer\\' => 29,
@@ -78,6 +79,7 @@ class ComposerStaticInit50f76ec3598233b640fa4666da00169d
             'Symfony\\Bridge\\Twig\\' => 20,
             'Symfony\\Bridge\\Monolog\\' => 23,
             'Symfony\\Bridge\\Doctrine\\' => 24,
+            'Stof\\DoctrineExtensionsBundle\\' => 30,
         ),
         'P' => 
         array (
@@ -94,9 +96,18 @@ class ComposerStaticInit50f76ec3598233b640fa4666da00169d
         array (
             'Monolog\\' => 8,
         ),
+        'K' => 
+        array (
+            'Knp\\Component\\' => 14,
+            'Knp\\Bundle\\PaginatorBundle\\' => 27,
+        ),
         'H' => 
         array (
             'Hautelook\\AliceBundle\\' => 22,
+        ),
+        'G' => 
+        array (
+            'Gedmo\\' => 6,
         ),
         'F' => 
         array (
@@ -202,6 +213,10 @@ class ComposerStaticInit50f76ec3598233b640fa4666da00169d
         'Symfony\\Component\\Validator\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/validator',
+        ),
+        'Symfony\\Component\\Translation\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/translation',
         ),
         'Symfony\\Component\\Templating\\' => 
         array (
@@ -323,6 +338,10 @@ class ComposerStaticInit50f76ec3598233b640fa4666da00169d
         array (
             0 => __DIR__ . '/..' . '/symfony/doctrine-bridge',
         ),
+        'Stof\\DoctrineExtensionsBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/stof/doctrine-extensions-bundle',
+        ),
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
@@ -347,9 +366,21 @@ class ComposerStaticInit50f76ec3598233b640fa4666da00169d
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
+        'Knp\\Component\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/knplabs/knp-components/src/Knp/Component',
+        ),
+        'Knp\\Bundle\\PaginatorBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/knplabs/knp-paginator-bundle',
+        ),
         'Hautelook\\AliceBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/hautelook/alice-bundle/src',
+        ),
+        'Gedmo\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/gedmo/doctrine-extensions/lib/Gedmo',
         ),
         'Fidry\\AliceDataFixtures\\' => 
         array (
@@ -460,6 +491,13 @@ class ComposerStaticInit50f76ec3598233b640fa4666da00169d
             'JsonpCallbackValidator' => 
             array (
                 0 => __DIR__ . '/..' . '/willdurand/jsonp-callback-validator/src',
+            ),
+        ),
+        'B' => 
+        array (
+            'Behat\\Transliterator' => 
+            array (
+                0 => __DIR__ . '/..' . '/behat/transliterator/src',
             ),
         ),
     );

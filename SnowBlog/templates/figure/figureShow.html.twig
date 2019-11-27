@@ -11,7 +11,7 @@
 	</div>
 	{% if app.user and user.email == figure.user.email %}
 		<div class="row position-absolute col-12 justify-content-end" style="top:60px;">
-			<a href="{{ path('figure_edit', {'id': figure.id}) }}" class="bg-white p-2 border">&#128394;</a>
+			<a href="{{ path('figure_edit', {'slug': figure.slug}) }}" class="bg-white p-2 border">&#128394;</a>
 			<a href="{{ path('delete', {'entity': 'figure', 'id': figure.id}) }}" onclick="return confirm('Etes-vous sur de vouloir supprimer cette figure ?')" class="bg-white p-2 border">
 				&#128465;</a>
 		</div>
@@ -101,16 +101,16 @@
 			</div>
 		{% endif %}
 
-		{% for comment in figure.comments %}
+		{% for comment in comments %}
 			<div class="row offset-lg-1">
 				<div class="col-1 d-none d-lg-block">
 					{% if comment.user.image %}
 						<img src="{{ asset('uploads/UserImg/' ~ comment.user.image) }}" class="rounded-circle border-success p-3" width="auto" height="100">
 					{% else %}
-						<img src="{{ asset('uploads/UserImg/anonymous.png') }}" class="rounded-circle border-success p-3" width="auto" height="100">
+						<img src="{{ asset('uploads/UserImg/icone-personne-gris.jpg') }}" class="rounded-circle border-success p-3" width="auto" height="100">
 					{% endif %}
 				</div>
-				<div class="d-none d-lg-block col-lg-9 bg-white comment p-3 border border-success mb-3">
+				<div class="d-none d-lg-block offset-lg-1 col-lg-9 bg-white comment p-3 border border-success mb-3">
 					<div class="row">
 						<div class="col-3 border-right border-success">
 							<div class="col font-MF text-success text-center">
@@ -156,4 +156,46 @@
 			</div>
 		</div>
 	{% endfor %}
+		{% if pagination.nbPages > 0 %}
+    <ul class="pagination col-12 justify-content-center">
+        {% if pagination.page > 1 %}
+            <li class="m-1 font-MF">
+                <a href="{{ path('figure_show', pagination.paramsRoute|merge({'page': 1})) }}#commentaires">
+                    <<
+                </a>
+            </li>
+            <li class="m-1 font-MF">
+                <a href="{{ path('figure_show',
+                pagination.paramsRoute|merge({'page': pagination.page-1})) }}#commentaires">
+                    <
+                </a>
+            </li>
+        {% endif %}
+
+        {# Affichage de toutes les pages entre p-4 et p+4 sauf si < 1 ou > nbPages #}
+        {% for p in range(max(pagination.page-4, 1), min(pagination.page+4, pagination.nbPages)) %}
+            <li class="m-1 font-MF" {% if p == pagination.page %}class="active"{% endif %}>
+                <a href="{{ path('figure_show', pagination.paramsRoute|merge({'page': p})) }}#commentaires">
+                    {{ p }}
+                </a>
+            </li>
+        {% endfor %}
+
+        {% if pagination.page < pagination.nbPages %}
+            <li class="m-1 font-MF">
+                <a href="{{ path('figure_show',
+                pagination.paramsRoute|merge({'page': pagination.page+1})) }}#commentaires">
+                    >
+                </a>
+            </li>
+            <li class="m-1 font-MF">
+                <a href="{{ path('figure_show',
+                pagination.paramsRoute|merge({'page': pagination.nbPages})) }}#commentaires">
+                    >>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+{% endif %}
+
 </section>{% endblock %}

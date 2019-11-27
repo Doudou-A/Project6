@@ -18,21 +18,21 @@
 				<a href="#Home">&#8593;</a>
 			</div>
 		</header>
-		<div class="row justify-content-start px-auto pt-3" id="tricks">
+		<div class="row justify-content-center px-auto pt-3 min-vh-90" id="tricks">
 			{% for figure in figures %}
-				<article class="mt-nav p-0 row col-md-2 h-25 m-3 shadow" id="{{figure.id}}">
+				<article class="mt-nav p-0 row col-md-2 h-25 m-3 shadow" slug="{{figure.slug}}">
 					{% if figure.image %}
-						<img src="{{ asset('uploads/home/' ~ figure.image) }}" height="auto" alt="" width="100%">
+						<img src="{{ asset('uploads/home/' ~ figure.image) }}" height="200" alt="" width="100%">
 					{% else %}
-						<img src="{{ asset('uploads/home/Pardefault.jpg') }}" height="auto" alt="" width="100%">
+						<img src="{{ asset('uploads/home/Pardefault.jpg') }}" height="200" alt="" width="100%">
 					{% endif %}
 					<div class="row bg-white w-100 justify-content-between ml-0 border-top">
 						<div>
-							<a href="{{ path('figure_show', {'id': figure.id}) }}" class="font-MF col-10 text-primary">{{ figure.name }}</a>
+							<a href="{{ path('figure_show', {'slug': figure.slug}) }}" class="font-MF col-10 text-primary">{{ figure.name }}</a>
 						</div>
 						<div>
 							{% if app.user and user.email == figure.user.email %}
-								<a href="{{ path('figure_edit', {'id': figure.id}) }}">&#128394;</a>
+								<a href="{{ path('figure_edit', {'slug': figure.slug}) }}">&#128394;</a>
 								<a href="{{ path('delete', {'entity': 'figure', 'id': figure.id}) }}" onclick="return confirm('Etes-vous sur de vouloir supprimer cette figure ?')">
 									&#128465;</a>
 							{% endif %}
@@ -41,9 +41,51 @@
 				</article>
 			{% endfor %}
 		</div>
+		{% if pagination.nbPages > 0 %}
+    <ul class="pagination col-12 justify-content-center">
+        {% if pagination.page > 1 %}
+            <li class="m-1 font-MF">
+                <a href="{{ path('front_figures_index', pagination.paramsRoute|merge({'page': 1})) }}#tricks">
+                    <<
+                </a>
+            </li>
+            <li class="m-1 font-MF">
+                <a href="{{ path('front_figures_index',
+                pagination.paramsRoute|merge({'page': pagination.page-1})) }}#tricks">
+                    <
+                </a>
+            </li>
+        {% endif %}
+
+        {# Affichage de toutes les pages entre p-4 et p+4 sauf si < 1 ou > nbPages #}
+        {% for p in range(max(pagination.page-4, 1), min(pagination.page+4, pagination.nbPages)) %}
+            <li class="m-1 font-MF" {% if p == pagination.page %}class="active"{% endif %}>
+                <a href="{{ path('front_figures_index', pagination.paramsRoute|merge({'page': p})) }}#tricks">
+                    {{ p }}
+                </a>
+            </li>
+        {% endfor %}
+
+        {% if pagination.page < pagination.nbPages %}
+            <li class="m-1 font-MF">
+                <a href="{{ path('front_figures_index',
+                pagination.paramsRoute|merge({'page': pagination.page+1})) }}#tricks">
+                    >
+                </a>
+            </li>
+            <li class="m-1 font-MF">
+                <a href="{{ path('front_figures_index',
+                pagination.paramsRoute|merge({'page': pagination.nbPages})) }}#tricks">
+                    >>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+{% endif %}
 
 	</section>
 {% endblock %}
+
 {% block javascripts %}
 	<script type="text/javascript">
 		var arrowDown = document.getElementById('arrowDown');

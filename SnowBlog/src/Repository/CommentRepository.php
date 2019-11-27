@@ -3,8 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Comment;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use InvalidArgumentException;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Comment|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,6 +22,41 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
+    public function findByFigurePagineEtTrie($page, $nbMaxParPage, $figureId)
+    {
+        if (!is_numeric($page)) {
+            throw new InvalidArgumentException(
+                'La valeur de l\'argument $page est incorrecte (valeur : ' . $page . ').'
+            );
+        }
+
+        if ($page < 1) {
+            throw new NotFoundHttpException('La page demandée n\'existe pas');
+        }
+
+        if (!is_numeric($nbMaxParPage)) {
+            throw new InvalidArgumentException(
+                'La valeur de l\'argument $nbMaxParPage est incorrecte (valeur : ' . $nbMaxParPage . ').'
+            );
+        }
+    
+        $qb = $this->createQueryBuilder('a')
+        ->where('a.figure = ' .$figureId. '')
+        ->orderBy('a.dateCreated', 'DESC');
+        
+        $query = $qb->getQuery();
+
+        $premierResultat = ($page - 1) * $nbMaxParPage;
+        $query->setFirstResult($premierResultat)->setMaxResults($nbMaxParPage);
+        $paginator = new Paginator($query);
+
+        if ( ($paginator->count() <= $premierResultat) && $page != 1) {
+            throw new NotFoundHttpException('La page demandée n\'existe pas.'); // page 404, sauf pour la première page
+        }
+
+        return $paginator;
+    }
+    
     // /**
     //  * @return Comment[] Returns an array of Comment objects
     //  */

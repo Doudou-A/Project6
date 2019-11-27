@@ -12,16 +12,15 @@ use App\Repository\MediaRepository;
 use App\Repository\FigureRepository;
 use App\Repository\CommentRepository;
 use App\Repository\CategoryRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FigureController extends AbstractController
 {
-
 
     /**
      * @Route("/admin/supprime/{entity}/{id}", name="delete")
@@ -55,13 +54,13 @@ class FigureController extends AbstractController
         } elseif ($entity == 'category') {
             return $this->redirectToRoute('categoryAllView');
         } elseif ($entity == 'comment') {
-            return $this->redirectToRoute('figure_show', ['id' => $commentRoute->getFigure()->getId()]);
+            return $this->redirectToRoute('figure_show', ['slug' => $commentRoute->getFigure()->getSlug()]);
         }
     }
 
     /**
      *  @Route("admin/figure/new", name="figure_create")
-     *  @Route("admin/figure/{id}/edit", name="figure_edit")
+     *  @Route("admin/figure/{slug}/edit", name="figure_edit")
      */
     public function formFigure(Figure $figure = null, Media $media = null, Request $request, ObjectManager $manager)
     {
@@ -117,12 +116,20 @@ class FigureController extends AbstractController
             $manager->persist($figure);
             $manager->flush();
 
-            return $this->redirectToRoute('figure_show', ['id' => $figure->getid()]);
+            $this->addFlash('success', 'Figure AJoutée/Modifiée avec succès !');
+
+            return $this->redirectToRoute('figure_show', [
+                'slug' => $figure->getSlug(),
+                'page' => 1
+                ]);
         }
 
         return $this->render('figure/figureForm.html.twig', [
             'formFigure' => $form->createView(),
-            'editMode' => $figure->getId() !== null
+            'editMode' => $figure->getId() !== null,
+            'newMode' => $figure->getId() == null,
+            'user' => $user,
+            'figure' => $figure
         ]);
     }
 
@@ -137,26 +144,45 @@ class FigureController extends AbstractController
     }
 
     /**
-     * @Route("/", name="home")
+     * @Route("/index", name="home")
+     * @Route("/index/{page}", requirements={"page" = "\d+"}, name="front_figures_index")
      */
-    public function index(FigureRepository $repo)
+    public function index(FigureRepository $repo, $page = null)
     {
+        if (!$page) {
+            $page = 1;
+        }
+
+        $nbFiguresParPage = 10;
+
         /* $figures = $repo->findBy(array(), array('id' => 'DESC'), 5); */
-        $figures = $repo->findAll();
+        $figures = $repo->findAllPagineEtTrie($page, $nbFiguresParPage);
         $user = $this->getUser();
+
+        $pagination = array(
+            'page' => $page,
+            'nbPages' => ceil(count($figures) / $nbFiguresParPage),
+            'nomRoute' => 'front_figures_index',
+            'paramsRoute' => array()
+        );
 
         return $this->render('index.html.twig', [
             'controller_name' => 'FigureController',
             'user' => $user,
-            'figures' => $figures
+            'figures' => $figures,
+            'pagination' => $pagination
         ]);
     }
 
     /**
-     *  @Route("/figure/{id}", name="figure_show")
+     *  @Route("/figure/{slug}/{page}", requirements={"page" = "\d+"}, name="figure_show")
      */
-    public function figureShow(Figure $figure, MediaRepository $repo, Request $request, ObjectManager $manager)
+    public function figureShow(Figure $figure, MediaRepository $repo, CommentRepository $repoComment, Request $request, ObjectManager $manager, $page = null)
     {
+        if (!$page){
+            $page = 1;
+        }
+
         $figureComment = new Comment();
         $user = $this->getUser();
 
@@ -174,16 +200,34 @@ class FigureController extends AbstractController
             $manager->persist($figureComment);
             $manager->flush();
 
-            return $this->redirectToRoute('figure_show', ['id' => $figure->getId()]);
+            return $this->redirectToRoute('figure_show', [
+                'slug' => $figure->getSlug()
+                ]);
         }
+
+        $nbCommentsParPage = 5;
+
+        $figureId = $figure->getId();
+        $comments = $repoComment->findByFigurePagineEtTrie($page, $nbCommentsParPage, $figureId);
+        /* $comments = $repoComment->findAllPagineEtTrie($page, $nbCommentsParPage); */
+        $user = $this->getUser();
+
+        $pagination = array(
+            'page' => $page,
+            'nbPages' => ceil(count($comments) / $nbCommentsParPage),
+            'nomRoute' => 'figure_show',
+            'paramsRoute' => array('slug' => $figure->getSlug())
+        );
 
         $medias = $repo->findBy(array('figure' => $figure->getId()));
 
         return $this->render('figure/figureShow.html.twig', [
             'figure' => $figure,
             'user' => $user,
+            'comments' => $comments,
             'formComment' => $form->createView(),
             'medias' => $medias,
+            'pagination' => $pagination
         ]);
     }
 }

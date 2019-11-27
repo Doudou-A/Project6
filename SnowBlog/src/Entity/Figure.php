@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -31,6 +32,12 @@ class Figure
     private $name;
 
     /**
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $slug;
+
+    /**
      * @ORM\Column(type="text")
      * @Assert\Length(min=10)
      */
@@ -53,7 +60,7 @@ class Figure
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="figures")
-     * @ORM\JoinColumn(onDelete="SET NULL")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $user;
 
@@ -94,6 +101,18 @@ class Figure
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil
+{% endblock %}
+
+{% block body %}
+	<div class="col-md-9 border p-4 bg-white mx-auto">
+		<div class="row p-2 border-bottom border-primary justify-content-center">
+			{% if user.image %}
+				<img src="{{ asset('uploads/UserImg/' ~ user.image) }}" class="p-3" width="auto" height="100">
+			{% endif %}
+			<h1 class="text-center font-MF col-12">
+				{{ user.username }}
+			</h1>
+		</div>
+		<div class="row p-2 ">
+			<div class="m-2 text-primary">Adresse email :</div>
+			<div class="m-2 text-primary font-MF">{{ user.email }}</div>
+		</div>
+		<div class="row p-2 ">
+			<div class="m-2 text-primary">Date de création :</div>
+			<div class="m-2 text-primary font-MF">{{ user.dateCreated | date('d/m/Y') }}</div>
+		</div>
+		<div class="row p-2 ">
+			<div class="m-2 text-primary">Nombre de figures réalisées :</div>
+			<div class="m-2 text-primary font-MF">{{ figure | length }}</div>
+		</div>
+		<div class="row p-2 ">
+			<div class="m-2 text-primary">Nombre de commentaires :</div>
+			<div class="m-2 text-primary font-MF">{{ comment | length }}</div>
+		</div>
+	</div>
+{% endblock %}

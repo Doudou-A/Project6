@@ -57,6 +57,7 @@ class User implements UserInterface
      * * @Assert\EqualTo(propertyPath="password", message="Vos mots de passe sont différents")
      */
     public $confirm_password;
+    
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Figure", mappedBy="user")
      */

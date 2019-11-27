@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
@@ -18,6 +19,7 @@ class Comment
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank
      */
     private $content;
 
@@ -28,11 +30,13 @@ class Comment
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Figure", inversedBy="comments")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $figure;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $user;
 

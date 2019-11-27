@@ -21,6 +21,7 @@ final class Versions
      * @internal
      */
     public const VERSIONS          = array (
+  'behat/transliterator' => 'v1.2.0@826ce7e9c2a6664c0d1f381cbb38b1fb80a7ee2c',
   'doctrine/annotations' => 'v1.8.0@904dca4eb10715b92569fbcd79e201d5c349b6bc',
   'doctrine/cache' => '1.9.1@89a5c76c39c292f7798f964ab3c836c3f8192a55',
   'doctrine/collections' => 'v1.6.2@c5e0bc17b1620e97c968ac409acbff28b8b850be',
@@ -40,7 +41,10 @@ final class Versions
   'egulias/email-validator' => '2.1.11@92dd169c32f6f55ba570c309d83f5209cefb5e23',
   'friendsofsymfony/jsrouting-bundle' => '2.4.0@e42ed450eac2b61d5fcba9cd834c294a429e9a40',
   'friendsofsymfony/user-bundle' => 'v2.1.2@1049935edd24ec305cc6cfde1875372fa9600446',
+  'gedmo/doctrine-extensions' => 'v2.4.37@5dd471f656e46d815f063bf3f12c667649ec7ffb',
   'jdorn/sql-formatter' => 'v1.2.17@64990d96e0959dff8e059dfcdc1af130728d92bc',
+  'knplabs/knp-components' => 'v2.3.0@d61c56ff4d427a14f0c308ee388fb75e94d01a7c',
+  'knplabs/knp-paginator-bundle' => 'v4.1.0@0e3cc11323f112470022d462c9e6718fd01c7e88',
   'monolog/monolog' => '1.25.1@70e65a5470a42cfec1a7da00d30edb6e617e8dcf',
   'ocramius/package-versions' => '1.5.1@1d32342b8c1eb27353c8887c366147b4c2da673c',
   'ocramius/proxy-manager' => '2.2.3@4d154742e31c35137d5374c998e8f86b54db2e2f',
@@ -48,6 +52,7 @@ final class Versions
   'psr/cache' => '1.0.1@d11b50ad223250cf17b86e38383413f5a6764bf8',
   'psr/container' => '1.0.0@b7ce3b176482dbbc1245ebf52b181af44c2cf55f',
   'psr/log' => '1.1.0@6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd',
+  'stof/doctrine-extensions-bundle' => 'v1.3.0@46db71ec7ffee9122eca3cdddd4ef8d84bae269c',
   'swiftmailer/swiftmailer' => 'v6.2.1@5397cd05b0a0f7937c47b0adcb4c60e5ab936b6a',
   'symfony/cache' => 'v4.3.5@40c62600ebad1ed2defbf7d35523d918a73ab330',
   'symfony/cache-contracts' => 'v1.1.7@af50d14ada9e4e82cfabfabdc502d144f89be0a1',
@@ -88,6 +93,7 @@ final class Versions
   'symfony/stopwatch' => 'v4.3.5@1e4ff456bd625be5032fac9be4294e60442e9b71',
   'symfony/swiftmailer-bundle' => 'v3.3.0@6b895bc0a5e815d1bf2d444869415a7c752516aa',
   'symfony/templating' => 'v4.3.5@dd89e8ecd9b5d6731e893b9c7a73e06fb2a46eac',
+  'symfony/translation' => 'v4.3.8@bbce239b35b0cd47bd75848b23e969f17dd970e7',
   'symfony/translation-contracts' => 'v1.1.7@364518c132c95642e530d9b2d217acbc2ccac3e6',
   'symfony/twig-bridge' => 'v4.3.5@499b3f3aedffa44e4e30b476bbd433854afc9bc3',
   'symfony/twig-bundle' => 'v4.3.5@c27738bb0d9b314b96a323aebc5f40a20e2a644b',
@@ -112,7 +118,7 @@ final class Versions
   'symfony/web-profiler-bundle' => 'v4.3.5@b52bb32e6182d924303dbeb9c584396819fef118',
   'symfony/yaml' => 'v4.4.0@76de473358fe802578a415d5bb43c296cf09d211',
   'theofidry/alice-data-fixtures' => 'v1.1.1@79913820cf6965cd6ea204cc5882079486f8262e',
-  '__root__' => 'dev-CSS@5c3377ea97abf2205c6edc3e25101a6705e18703',
+  '__root__' => 'dev-CSS@0a6835ebb17b8f5047e3e87422a29ab3bc9d9196',
 );
 
     private function __construct()

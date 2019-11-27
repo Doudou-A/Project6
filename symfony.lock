@@ -1,4 +1,7 @@
 {
+    "behat/transliterator": {
+        "version": "v1.2.0"
+    },
     "egulias/email-validator": {
         "version": "2.1.11"
     },
@@ -20,6 +23,9 @@
     "fzaninotto/faker": {
         "version": "v1.9.0"
     },
+    "gedmo/doctrine-extensions": {
+        "version": "v2.4.37"
+    },
     "hautelook/alice-bundle": {
         "version": "2.1",
         "recipe": {
@@ -33,6 +39,12 @@
             "config/packages/test/hautelook_alice.yaml",
             "fixtures/.gitignore"
         ]
+    },
+    "knplabs/knp-components": {
+        "version": "v2.3.0"
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v4.1.0"
     },
     "monolog/monolog": {
         "version": "1.25.1"
@@ -67,6 +79,18 @@
     },
     "sebastian/recursion-context": {
         "version": "3.0.0"
+    },
+    "stof/doctrine-extensions-bundle": {
+        "version": "1.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.2",
+            "ref": "6c1ceb662f8997085f739cd089bfbef67f245983"
+        },
+        "files": [
+            "config/packages/stof_doctrine_extensions.yaml"
+        ]
     },
     "swiftmailer/swiftmailer": {
         "version": "v6.2.1"
@@ -146,6 +170,19 @@
     },
     "symfony/templating": {
         "version": "v4.3.5"
+    },
+    "symfony/translation": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "2ad9d2545bce8ca1a863e50e92141f0b9d87ffcd"
+        },
+        "files": [
+            "config/packages/translation.yaml",
+            "translations/.gitignore"
+        ]
     },
     "symfony/yaml": {
         "version": "v4.4.0"
