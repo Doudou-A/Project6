@@ -43,6 +43,11 @@ class User implements UserInterface
     private $username;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $image;
+
+    /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min="8", minMessage="Votre mot de passe doit contenir 8 caractères")
      */
@@ -54,20 +59,15 @@ class User implements UserInterface
     public $confirm_password;
     
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Forum", mappedBy="user")
-     */
-    private $forums;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Figure", mappedBy="user")
      */
     private $figures;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user")
      */
-    private $roles = [];
-
+    private $comments;
+    
     /**
      * @ORM\Column(type="integer")
      */
@@ -97,8 +97,8 @@ class User implements UserInterface
 
     public function __construct()
     {
-        $this->forums = new ArrayCollection();
         $this->figures = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -162,37 +162,6 @@ class User implements UserInterface
     public function eraseCredentials() {}
 
     /**
-     * @return Collection|Forum[]
-     */
-    public function getForums(): Collection
-    {
-        return $this->forums;
-    }
-
-    public function addForum(forum $forum): self
-    {
-        if (!$this->forums->contains($forum)) {
-            $this->forums[] = $forum;
-            $forum->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeForum(Forum $forum): self
-    {
-        if ($this->forums->contains($forum)) {
-            $this->forums->removeElement($forum);
-            // set the owning side to null (unless already changed)
-            if ($forum->getUser() === $this) {
-                $forum->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Figure[]
      */
     public function getFigures(): Collection
@@ -251,6 +220,49 @@ class User implements UserInterface
     public function setToken(int $token): self
     {
         $this->token = $token;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
+            }
+        }
 
         return $this;
     }

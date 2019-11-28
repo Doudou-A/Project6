@@ -6,6 +6,7 @@ ajax_route:
     defaults:
          _controller: AppBundle:Default:ajax
     methods: [post]
+    
 logout:
     path: /deconnexion
 

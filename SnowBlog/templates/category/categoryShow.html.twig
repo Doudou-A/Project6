@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<div class="row overflow-auto justify-content-center">
+	{% for figure in figures %}
+		<article class="mt-nav row col-lg-2 h-25 m-3" id="{{figure.id}}">
+			{% if figure.image %}
+						<img src="{{ asset('uploads/home/' ~ figure.image) }}" height="200" alt="" width="100%">
+					{% else %}
+						<img src="{{ asset('uploads/home/Pardefault.jpg') }}" height="200" alt="" width="100%">
+					{% endif %}
+			<div class="row w-100 justify-content-between ml-0 bg-white border-top">
+				<div>
+					<a href="{{ path('figure_show', {'slug': figure.slug}) }}">{{ figure.name }}</a>
+				</div>
+				<div>
+					{% if app.user %}
+						<a href="{{ path('figure_edit', {'slug': figure.slug}) }}">&#128394;</a>
+						<a href="{{ path('delete', {'entity': 'figure', 'id': figure.id}) }}" onclick="return confirm('Etes-vous sur de vouloir supprimer cette figure ?')">
+							&#128465;</a>
+					{% endif %}
+				</div>
+			</div>
+		</article>
+	{% endfor %}
+</div>
+{% endblock %}

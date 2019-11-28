@@ -1,9 +1,0 @@
-{% extends "base.html.twig" %}
-
-{% block body %}
-    {{ form_start(formMedia) }}
-        {{ form_row(formMedia.file) }}
-        {{ form_row(formMedia.type) }}
-    <button type="submit" class="btn btn-success"> Ajouté ce file ! </button>
-    {{ form_end(formMedia) }}
-{% endblock %}

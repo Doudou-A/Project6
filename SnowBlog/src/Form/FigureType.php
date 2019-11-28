@@ -23,6 +23,8 @@ class FigureType extends AbstractType
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
+
+                
             ])
             ->add('image', FileType::class, [
                 'mapped' => false,
@@ -36,6 +38,7 @@ class FigureType extends AbstractType
             ])
             ->add('medias', CollectionType::class, [
                 'entry_type' => MediaType::class,
+                'label' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false

@@ -2,13 +2,19 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FigureRepository")
+ * @UniqueEntity(
+ *  fields= {"name"},
+ * message= "Cette figure existe déjà !"
+ * )
  */
 class Figure
 {
@@ -21,9 +27,15 @@ class Figure
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=5, max=255, minMessage="Le champ doit contenir minimum 5 caractères")
+     * @Assert\Length(min=3, max=15, minMessage="Le champ doit contenir entre 3 et 15 caractères ")
      */
     private $name;
+
+    /**
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $slug;
 
     /**
      * @ORM\Column(type="text")
@@ -42,20 +54,20 @@ class Figure
     private $dateLastUpdate;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $image;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="figures")
-     * @ORM\JoinColumn(onDelete="SET NULL")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Forum", mappedBy="figure", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="figure", cascade={"remove"})
      */
-    private $forums;
+    private $comments;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="figure", orphanRemoval=true,  cascade={"remove"})
@@ -70,10 +82,10 @@ class Figure
 
     public function __construct()
     {
-        $this->forums = new ArrayCollection();
         $this->medias = new ArrayCollection();
         $this->mediavideos = new ArrayCollection();
         $this->mediaimages = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -89,6 +101,18 @@ class Figure
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
@@ -152,38 +176,6 @@ class Figure
 
         return $this;
     }
-
-    /**
-     * @return Collection|Forum[]
-     */
-    public function getForums(): Collection
-    {
-        return $this->forums;
-    }
-
-    public function addForum(Forum $forum): self
-    {
-        if (!$this->forums->contains($forum)) {
-            $this->forums[] = $forum;
-            $forum->setFigure($this);
-        }
-
-        return $this;
-    }
-
-    public function removeForum(Forum $forum): self
-    {
-        if ($this->forums->contains($forum)) {
-            $this->forums->removeElement($forum);
-            // set the owning side to null (unless already changed)
-            if ($forum->getFigure() === $this) {
-                $forum->setFigure(null);
-            }
-        }
-
-        return $this;
-    }
-
     /**
      * @return Collection|Media[]
      */
@@ -223,6 +215,37 @@ class Figure
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setFigure($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getFigure() === $this) {
+                $comment->setFigure(null);
+            }
+        }
 
         return $this;
     }

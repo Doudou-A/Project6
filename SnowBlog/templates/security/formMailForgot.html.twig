@@ -1,12 +1,19 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-
-    <h1>Inscription</h1>
-
-    {{ form_start(formEmail) }}
-        {{ form_row(formEmail.email, { 'label': 'Votre adresse email', 'attr' : {'placeholder': 'Email ...'}}) }}
-    <button type="submit" class="btn btn-success">Inscription ! </button>
-    {{ form_end(formEmail)}}
-
+	<div class="col-md-9 border p-4 bg-white mx-auto">
+		<h1 class="p-2 text-center font-MF border-bottom border-primary">
+			Mot de passe oublié
+		</h1>
+		{{ form_start(formEmail) }}
+		<div class="mt-5">
+			{{ form_row(formEmail.email, {'attr' : {'placeholder': 'Adresse Email'}}) }}
+		</div>
+		<div class="row justify-content-center">
+			<button type="submit" class="btn btn-success my-3 font-MF">
+				Valider
+			</button>
+		</div>
+        {{ form_end(formEmail)}}
+	</div>
 {% endblock %}

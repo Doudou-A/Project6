@@ -3,19 +3,21 @@
         "symfony/orm-pack": "^1.0",
         "symfony/security": "^4.3",
         "symfony/validator": "^4.3",
-        "symfony/annotations-pack": "^1.0",
         "symfony/security-csrf": "^4.3",
         "symfony/flex": "^1.4",
         "symfony/security-bundle": "^4.3",
         "symfony/monolog-bundle": "^3.4",
-        "doctrine/doctrine-fixtures-bundle": "^3.2",
         "doctrine/doctrine-migrations-bundle": "^2.0",
         "friendsofsymfony/jsrouting-bundle": "^2.4",
         "friendsofsymfony/user-bundle": "^2.1",
-        "symfony/swiftmailer-bundle": "^3.3"
+        "symfony/swiftmailer-bundle": "^3.3",
+        "knplabs/knp-paginator-bundle": "^4.1",
+        "stof/doctrine-extensions-bundle": "^1.3"
     },
     "require-dev": {
         "doctrine/data-fixtures": "^1.3",
-        "symfony/profiler-pack": "^1.0"
+        "symfony/profiler-pack": "^1.0",
+        "hautelook/alice-bundle": "^2.5",
+        "doctrine/doctrine-fixtures-bundle": "^3.3"
     }
 }
