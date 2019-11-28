@@ -123,7 +123,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/security/VerifyValid", name="verify_valid")
      */
-    public function verifyValid(\Swift_Mailer $mailer)
+    public function verifyValid(Request $request, \Swift_Mailer $mailer)
     {
         $user = $this->getUser();
         $date = $user->getDateCreated();
@@ -132,15 +132,16 @@ class SecurityController extends AbstractController
 
         if ($user->getConfirm() == false && $date < $now) {
             $message = (new \Swift_Message('Mail de Confirmation'))
-            ->setFrom('send@example.com')
-            ->setTo($user->getEmail())
-            ->setBody(
-                'Cela fait 24h que vous n\'avez pas confirmer votre adresse email. Veuillez la confirmer si vous souhaitez vous connecter : </br>
+                ->setFrom('send@example.com')
+                ->setTo($user->getEmail())
+                ->setBody(
+                    'Cela fait 24h que vous n\'avez pas confirmer votre adresse email. Veuillez la confirmer si vous souhaitez vous connecter : </br>
         http://localhost:8000/security/confirm/' . $user->getToken() . '',
-                'text/html'
-            );
+                    'text/html'
+                );
 
             $mailer->send($message);
+            
             return $this->redirectToRoute('security_logout');
         }
         return $this->redirectToRoute('home');
@@ -233,5 +234,4 @@ class SecurityController extends AbstractController
             'error1' => $error1
         ]);
     }
-
 }
