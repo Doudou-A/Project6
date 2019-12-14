@@ -50,7 +50,7 @@ class FigureController extends AbstractController
         if ($entity == 'figure') {
             return $this->redirectToRoute('home');
         } elseif ($entity == 'media') {
-            return $this->redirectToRoute('figure_show', ['id' => $mediaRoute->getFigure()->getId()]);
+            return $this->redirectToRoute('figure_show', ['slug' => $mediaRoute->getFigure()->getSlug()]);
         } elseif ($entity == 'category') {
             return $this->redirectToRoute('categoryAllView');
         } elseif ($entity == 'comment') {
