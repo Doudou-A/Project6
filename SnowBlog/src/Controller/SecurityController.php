@@ -176,7 +176,7 @@ class SecurityController extends AbstractController
                 ->setFrom('send@example.com')
                 ->setTo($user->getEmail())
                 ->setBody(
-                    'Voici le lien pour confirmer votre compte : </br>
+                    'Voici le lien pour modifier votre mot de passe : </br>
             http://localhost:8000/security/forgotPassword/' . $user->getToken() . '',
                     'text/html'
                 );
