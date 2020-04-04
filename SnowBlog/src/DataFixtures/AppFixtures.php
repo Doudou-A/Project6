@@ -21,7 +21,7 @@ class AppFixtures extends Fixture
      */
     private $encoder;
 
-    public function __construct(UserPAsswordEncoderInterface $encoder)
+    public function __construct(UserPasswordEncoderInterface $encoder)
     {
         $this->encoder = $encoder;
     }
