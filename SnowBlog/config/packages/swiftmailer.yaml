@@ -1,3 +1,0 @@
-swiftmailer:
-    url: 'gmail://adeldoudou1996@gmail.com:mdm0071malik@localhost?encryption=tls&auth_mode=oauth'
-    spool: { type: 'memory' }

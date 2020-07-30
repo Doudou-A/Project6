@@ -1,2 +1,0 @@
-# use this to configure a traditional SMTP server
-MAILER_URL=gmail://adeldoudou1996@gmail.com:mdm00071malik@localhost?encryption=tls&auth_mode=oauth
